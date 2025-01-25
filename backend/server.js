@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
 import User from "./models/user.model.js";
-import { mongo } from "mongoose";
+import mongoose from "mongoose";
 
 dotenv.config();
 
@@ -44,7 +44,7 @@ app.put("/api/users/:id", async (req, res) => {
     const { id } = req.params;
     const user = req.body;
 
-    if(!mongo.Types.ObjectId.isValid(id)) { // Check if the id is a valid ObjectId
+    if(!mongoose.Types.ObjectId.isValid(id)) { // Check if the id is a valid ObjectId
         return res.status(404).json({ success: false, message: "Invalid user id" });
     }
 
