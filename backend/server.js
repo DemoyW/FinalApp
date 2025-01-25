@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
 import User from "./models/user.model.js";
+import { mongo } from "mongoose";
 
 dotenv.config();
 
@@ -39,7 +40,22 @@ app.post("/api/users",  async (req, res) => {
 
 });
 
+app.put("/api/users/:id", async (req, res) => { 
+    const { id } = req.params;
+    const user = req.body;
 
+    if(!mongo.Types.ObjectId.isValid(id)) { // Check if the id is a valid ObjectId
+        return res.status(404).json({ success: false, message: "Invalid user id" });
+    }
+
+    try {
+        const updatedUser = await User.findByIdAndUpdate(id, user, { new: true });
+        res.status(200).json({ success: true, data: updatedUser });
+    } catch (error) {
+        console.error("Error in update user", error.message);
+        res.status(500).json({ success: false, message: "Server Error" });
+    }
+});
 
 app.delete("/api/users/:id", async (req, res) => {
 const { id } = req.params;
