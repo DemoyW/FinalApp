@@ -9,9 +9,16 @@ const app = express();
 
 app.use(express.json()); // This is a built-in middleware function in Express. It parses incoming requests with JSON payloads and is based on body-parser.
 
-app.get("/api/user", (req, res) => {
-    res.send("API is running....");
-}); 
+app.get("/api/users", async (req, res) => {
+    try {
+        const users = await User.find({});
+
+        res.status(200).json({ success: true, data: users });
+    } catch (error) {
+        console.error("Error in fetching users", error.message);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+} );
 
 app.post("/api/users",  async (req, res) => {
     const user = req.body; // req.body is the data that is sent with the POST request
@@ -27,9 +34,25 @@ app.post("/api/users",  async (req, res) => {
         res.status(201).json({ success: true, data: newUser });
     } catch (error) {
         console.error("Error in create user", error.message);
-        res.status(500).json({ success: false, message: "Server error 1" });
+        res.status(500).json({ success: false, message: "Server error" });
     }
 
+});
+
+
+
+app.delete("/api/users/:id", async (req, res) => {
+const { id } = req.params;
+    
+    try {
+        const deletedUser = await User.findByIdAndDelete(id);
+
+
+        res.status(200).json({ success: true, message: "User deleted" });
+    } catch (error) {
+        console.error("Error in delete user", error.message);
+        res.status(404).json({ success: false, message: "User not found" });
+    }
 });
 
 
