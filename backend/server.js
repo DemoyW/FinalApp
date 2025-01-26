@@ -7,6 +7,7 @@ import userRoutes from "./routes/user.route.js";
 dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 8000
 
 app.use(express.json()); // This is a built-in middleware function in Express. It parses incoming requests with JSON payloads and is based on body-parser.
 
@@ -14,9 +15,9 @@ app.use("/api/users", userRoutes);
 
 
 
-app.listen(8000, () => {
+app.listen(PORT, () => {
     connectDB();
-    console.log("Server is running on http://localhost:8000/");
+    console.log("Server is running on http://localhost" + PORT);
 });
 
 
