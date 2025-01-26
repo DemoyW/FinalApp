@@ -16,7 +16,7 @@ export const useUserStore = create((set) => ({
         })
         const data = await res.json();
         set((state) => ({ users: [...state.users, data.data] }));
-        return { success: true, data: "Product created successfully" };
+        return { success: true, message: "Product created successfully" };
     },
 }));
 

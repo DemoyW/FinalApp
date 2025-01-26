@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
 
@@ -10,6 +11,8 @@ const app = express();
 const PORT = process.env.PORT || 8000
 
 app.use(express.json()); // This is a built-in middleware function in Express. It parses incoming requests with JSON payloads and is based on body-parser.
+
+app.use(cors());
 
 app.use("/api/users", userRoutes);
 
