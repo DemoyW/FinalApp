@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { useUserStore } from '../store/user';
 
 const SignupScreen = () => {
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [newUser, setNewUser] = useState({
+        username: '',
+        password: '',
+    });
 
-    const handleSignup = () => {
-        // Handle signup logic here
-        console.log('Signup:', { username, email, password });
+
+    const {createUser} = useUserStore()
+    const handleSignup = async() => {
+        const {success, message} = await createUser(newUser)
+        console.log("success", success)
+        console.log("message", message)
     };
 
     return (
@@ -17,21 +22,14 @@ const SignupScreen = () => {
             <TextInput
                 style={styles.input}
                 placeholder="Username"
-                value={username}
-                onChangeText={setUsername}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Email"
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
+                value={newUser.username}
+                onChangeText={(username) => setNewUser({ ...newUser, username })}
             />
             <TextInput
                 style={styles.input}
                 placeholder="Password"
-                value={password}
-                onChangeText={setPassword}
+                value={newUser.password}
+                onChangeText={(password) => setNewUser({ ...newUser, password })}
                 secureTextEntry
             />
             <Button title="Sign Up" onPress={handleSignup} />
