@@ -20,3 +20,4 @@ export const useUserStore = create((set) => ({
     },
 }));
 
+// need to change localhost to device ip address when using movile device
