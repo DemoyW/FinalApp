@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useUserStore } from '../store/user';
+import { Link } from 'expo-router';
 
 const SignupScreen = () => {
     const [newUser, setNewUser] = useState({
@@ -44,7 +45,7 @@ const SignupScreen = () => {
                 secureTextEntry
             />
             <Button title="Sign Up" onPress={handleSignup} />
-            <Button title="Log In" onPress={() => console.log("Log In")} /> 
+            <Link href="/login" style={styles.button}>Log In</Link>
         </View>
     );
 };
@@ -53,7 +54,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
+        alignItems: 'center',
         padding: 16,
+        backgroundColor : "lightblue",
     },
     title: {
         fontSize: 24,
@@ -66,6 +69,11 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginBottom: 12,
         paddingHorizontal: 8,
+    },
+    button: {
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "blue",
     },
 });
 

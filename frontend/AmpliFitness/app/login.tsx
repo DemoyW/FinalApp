@@ -34,7 +34,7 @@ export default function LoginScreen() {
       />
       <Button title="Log In" onPress={handleLogin} />
      
-      <Button title="Sign Up" onPress={() => console.log("Sign Up")} />
+      <Link href="/signup" style={styles.button}>Sign Up</Link>
 
       <Link href="/(tabs)/home" style={styles.button}>
        Home

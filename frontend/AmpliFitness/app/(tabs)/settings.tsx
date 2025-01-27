@@ -1,14 +1,32 @@
-import {Text, View} from 'react-native';
+import {Text, View, StyleSheet} from 'react-native';
 
 export default function SettingsScreen() {
   return (
-    <View>
-      <Text>Settings</Text>
-      <Text>Change Email</Text>
-      <Text>Change Password</Text>
-      <Text>Change Notification Settings</Text>
-      <Text>Change Privacy Settings</Text>
-      <Text>Change Profile Information</Text>
+    <View style={styles.container}>
+      <Text style={styles.text}>Settings</Text>
+      <Text style={styles.text}>Change Email</Text>
+      <Text style={styles.text}>Change Password</Text>
+      <Text style={styles.text}>Change Notification Settings</Text>
+      <Text style={styles.text}>Change Privacy Settings</Text>
+      <Text style={styles.text}>Change Profile Information</Text>
     </View>
   );
 } 
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "lightblue",
+  },
+  text: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  button: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "blue",
+  },
+});

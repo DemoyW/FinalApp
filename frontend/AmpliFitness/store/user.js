@@ -18,6 +18,20 @@ export const useUserStore = create((set) => ({
         set((state) => ({ users: [...state.users, data.data] }));
         return { success: true, message: "Product created successfully" };
     },
+    // getUser: async (User) => {
+    //     if(!User.username || !User.password) {
+    //         return { success: false, message: "Please provide a username and password" };
+    //     }
+    //     const res = await fetch("http://localhost:8000/api/users", {
+    //         method: "GET",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify(User),
+    //     })
+    //     const data = await res.json();
+    //     return data;
+    // }
 }));
 
 // need to change localhost to device ip address when using movile device
