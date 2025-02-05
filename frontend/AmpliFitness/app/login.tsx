@@ -1,28 +1,41 @@
-import {Text, View, Button, StyleSheet, TextInput} from "react-native";
+import {Text, View, Button, StyleSheet, TextInput, Alert} from "react-native";
 import {Link} from "expo-router";
 
 import { useState } from "react";
+import { useUserStore } from "../store/user";
 
 export default function LoginScreen() {
   const [user, setUser] = useState({
-    email: "",
+    username: "",
     password: "",
   });
  
-
-  const handleLogin = () => {
-    console.log("Logging in with", user.email, user.password);
+  const { loginUser } = useUserStore();
+  const handleLogin = async() => {
+  try{
+    const { success, message } = await loginUser(user);
+    console.log("success", success);
+    console.log("message", message);
+    if (success) {
+      Alert.alert("Login Successful", message);
+    } else {
+      Alert.alert("Login Failed", message);
+    }
+  } catch (error) {
+    console.error("Error during login:", error);
+    Alert.alert("Login Error", "An error occurred during login. Please try again.");
   };
+  }
 
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Welcome to AmpliFitness</Text>
       <TextInput 
         style={styles.input} 
-        placeholder="Email" 
+        placeholder="username" 
         placeholderTextColor={"grey"}
-        value={user.email} 
-        onChangeText={(email) => setUser({ ...user, email })}
+        value={user.username} 
+        onChangeText={(username) => setUser({ ...user, username })}
       />
       <TextInput
         style={styles.input} 

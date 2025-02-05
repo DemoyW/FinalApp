@@ -14,7 +14,7 @@ app.use(express.json()); // This is a built-in middleware function in Express. I
 
 app.use(cors());
 
-app.use("/api/users", userRoutes);
+app.use("/api", userRoutes);
 
 
 

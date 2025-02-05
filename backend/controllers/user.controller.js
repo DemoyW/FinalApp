@@ -65,3 +65,19 @@ export const deleteUser =  async (req, res) => {
     }
 };
         
+export const loginUser = async (req, res) => {
+    const user = req.body;
+
+    try {
+        const foundUser = await User.findOne({ username: user.username, password: user.password });
+
+        if(!foundUser) {
+            return res.status(400).json({ success: false, message: "Invalid username or password" });
+        }
+
+        res.status(200).json({ success: true, data: foundUser });
+    } catch (error) {
+        console.error("Error in login user", error.message);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+}
