@@ -7,10 +7,18 @@ const workoutSchema = new mongoose.Schema({
         unique: true,
         trim: true
     },
-    exercises: [
+    workoutExercises: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Exercise"
+            ref: "WorkoutExercise"
         }
-    ]
+    ],
+    date: {
+        type: Date,
+        required: true
+    },
+    notes: {
+        type: String
+    }
+
 });
