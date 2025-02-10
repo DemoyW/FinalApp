@@ -14,3 +14,7 @@ const workoutTemplateSchema = new mongoose.Schema({
             }
         ]
     });
+
+const WorkoutTemplate = mongoose.model("WorkoutTemplate", workoutTemplateSchema);
+
+export default WorkoutTemplate;
