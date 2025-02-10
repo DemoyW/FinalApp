@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
 
 import userRoutes from "./routes/user.route.js";
+import exerciseRoutes from "./routes/exercise.route.js";
 
 dotenv.config();
 
@@ -15,7 +16,7 @@ app.use(express.json()); // This is a built-in middleware function in Express. I
 app.use(cors());
 
 app.use("/api", userRoutes);
-
+app.use("/api", exerciseRoutes);
 
 
 app.listen(PORT, () => {

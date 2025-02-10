@@ -12,3 +12,7 @@ const exerciseSchema = new mongoose.Schema({
         required: true
     },
 });
+
+const Exercise = mongoose.model("Exercise", exerciseSchema);
+
+export default Exercise;

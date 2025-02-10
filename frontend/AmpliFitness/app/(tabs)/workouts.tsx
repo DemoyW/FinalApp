@@ -7,9 +7,6 @@ export default function WorkoutsScreen() {
         <View style={styles.container}>
         <Text style={styles.title}>Workouts</Text>
         <Text style={styles.text}>Welcome to the Workouts page!</Text>
-        <Link href="/(tabs)/home" style={styles.button}>
-            Home
-        </Link>
         </View>
     );
     }
