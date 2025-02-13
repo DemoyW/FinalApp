@@ -2,7 +2,7 @@ import WorkoutTemplate from '../models/workoutTemplate.model.js';
 
 export const getWorkoutTemplates = async (req, res) => {
     try {
-        const workoutTemplates = await WorkoutTemplate.find({});
+        const workoutTemplates = await WorkoutTemplate.find({}).populate("exercises");
 
         res.status(200).json({ success: true, data: workoutTemplates });
     } catch (error) {
