@@ -12,7 +12,11 @@ const workoutTemplateSchema = new mongoose.Schema({
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Exercise"
             }
-        ]
+        ],
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }
     });
 
 const WorkoutTemplate = mongoose.model("WorkoutTemplate", workoutTemplateSchema);
