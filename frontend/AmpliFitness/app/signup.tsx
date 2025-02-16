@@ -14,8 +14,10 @@ const SignupScreen = () => {
     const handleSignup = async() => {
     try {
         const {success, message} = await createUser(newUser)
-        console.log("success", success)
-        console.log("message", message)
+        console.log("success:", success)
+        console.log("message:", message)
+        console.log("Current store state", useUserStore.getState());
+        console.log("did the above message send?")
         if (success) {
             Alert.alert("Signup Successful", message);
         } else {
@@ -26,6 +28,7 @@ const SignupScreen = () => {
         Alert.alert("Signup Error", "An error occurred during signup. Please try again.");
     }
     };
+
 
 
     return (
