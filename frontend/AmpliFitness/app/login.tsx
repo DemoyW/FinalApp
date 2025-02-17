@@ -1,10 +1,12 @@
 import {Text, View, Button, StyleSheet, TextInput, Alert} from "react-native";
-import {Link} from "expo-router";
+import {Link, useRouter} from "expo-router";
 
 import { useState } from "react";
 import { useUserStore } from "../store/user";
 
 export default function LoginScreen() {
+  const router = useRouter();
+
   const [user, setUser] = useState({
     username: "",
     password: "",
@@ -16,8 +18,10 @@ export default function LoginScreen() {
     const { success, message } = await loginUser(user);
     console.log("success", success);
     console.log("message", message);
-    if (success) {
+    if (message.success) {
+      console.log("This is the success message", message.success)
       Alert.alert("Login Successful", message);
+      router.navigate("/(tabs)/home");
     } else {
       Alert.alert("Login Failed", message);
     }
