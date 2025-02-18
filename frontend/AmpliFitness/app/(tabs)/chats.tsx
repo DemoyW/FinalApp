@@ -2,9 +2,27 @@ import {Text, View, StyleSheet} from 'react-native';
 
 export default function ChatScreen() {
     return (
-        <View>
-        <Text>Chats</Text>
-        <Text>Chat with other users</Text>
+        <View style={styles.container}>
+        <Text style={styles.text}>Chats</Text>
+        <Text style={styles.text}>Chat with other users</Text>
         </View>
     );
     }
+
+
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 16,
+            backgroundColor : "lightblue",
+        },
+    
+        text: {
+            fontSize: 20,
+            fontWeight: 'bold',
+        },
+     
+        });
+    

@@ -112,7 +112,7 @@ export default function WorkoutsScreen() {
             {exercises.map((exercise) => (
                 <View>
                     <Text style={styles.text}>{exercise.name}</Text>
-                    <Button title="Add" onPress={() => setNewWorkoutTemplate({...newWorkoutTemplate, exercises: [...newWorkoutTemplate.exercises, exercise]})} />
+                    {/* <Button title="Add" onPress={() => setNewWorkoutTemplate({...newWorkoutTemplate, exercises: [...newWorkoutTemplate.exercises, exercise]})} /> */}
                 </View>
             ))}
             <Button title="Remove" onPress={() => setNewWorkoutTemplate({...newWorkoutTemplate, exercises: newWorkoutTemplate.exercises.slice(0, -1)})} />
