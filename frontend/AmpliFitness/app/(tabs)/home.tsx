@@ -1,7 +1,19 @@
 import { Text, View, StyleSheet } from "react-native";
 import {Link} from "expo-router";
+import { useUserStore } from "../../store/user";
+import { useEffect } from "react";
 
 export default function HomeScreen() {
+
+
+
+  const { userId } = useUserStore();
+  useEffect(() => {
+    console.log(" this is the userId", userId);
+  }
+  , [userId]);
+ 
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Welcome to AmpliFitness</Text>
@@ -12,6 +24,7 @@ export default function HomeScreen() {
       <Link href="/profile" style={styles.button}>
         Profile
       </Link>
+      {/* <button onClick={viewUserId}>View User Id</button> */}
     </View>
   );
 }

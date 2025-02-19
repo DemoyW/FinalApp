@@ -1,6 +1,7 @@
 import {create} from "zustand";
 
 export const useUserStore = create((set) => ({
+    userId: null,
     users: [],
     setUsers: (users) => set({ users }),
    
@@ -49,6 +50,8 @@ export const useUserStore = create((set) => ({
             body: JSON.stringify(user),
         })
         const data = await res.json();
+        set((state) => ({ userId: data.data._id }));
+        console.log(data);
         console.log("Where does this go");
         return { success: true, message: data };
     },
