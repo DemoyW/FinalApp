@@ -108,4 +108,6 @@ export const useUserStore = create((set) => ({
 //         set((state) => ({ exercises: state.exercises.filter((exercise) => exercise._id !== id) }));
 //     },
 // }));
+
+
 // // need to change localhost to device ip address when using movile device
