@@ -8,7 +8,8 @@ export const useExerciseStore = create((set) => ({
         if(!newExercise.name || !newExercise.description) {
             return { success: false, message: "Please provide a name and description" };
         }
-        const res = await fetch("http://localhost:8000/api/exercises", {
+        // const res = await fetch("http://localhost:8000/api/exercises", {
+        const res = await fetch("http://192.168.1.119:8000/api/exercises", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -20,7 +21,8 @@ export const useExerciseStore = create((set) => ({
         return { success: true, message: "Exercise created successfully" };
     },
     getExercises: async () => {
-        const res = await fetch("http://localhost:8000/api/exercises", {
+        // const res = await fetch("http://localhost:8000/api/exercises", {
+        const res = await fetch("http://192.168.1.119:8000/api/exercises", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

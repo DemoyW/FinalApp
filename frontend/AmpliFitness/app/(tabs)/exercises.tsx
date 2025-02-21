@@ -3,8 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Link } from 'expo-router';
 
 import { useExerciseStore } from '../../store/exercise';
-import { FlatList } from 'react-native-gesture-handler';
-import { get } from 'mongoose';
+import { FlatList, GestureHandlerRootView } from 'react-native-gesture-handler';
 
 
 interface Item {
@@ -37,18 +36,20 @@ export default function ExercisesScreen() {
 
 
     return (
-        <View style={styles.container}>
-        <Text style={styles.title}>Exercises</Text>
-        <Text style={styles.text}>View a list of the available exercises below!</Text>
-        <FlatList
-            data={exercises}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => <View>
-                <Text style={styles.text}>{item.name}</Text>
-                <Text style={styles.text}>{item.description}</Text>
-                </View>}
-        />
-        </View>
+        <GestureHandlerRootView>        
+            <View style={styles.container}>
+            <Text style={styles.title}>Exercises</Text>
+            <Text style={styles.text}>View a list of the available exercises below!</Text>
+            <FlatList
+                data={exercises}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => <View>
+                    <Text style={styles.text}>{item.name}</Text>
+                    <Text style={styles.text}>{item.description}</Text>
+                    </View>}
+            />
+            </View>
+        </GestureHandlerRootView>
     );
     }
 

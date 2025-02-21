@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, Modal, Button  } from 'react-native';
 import { Link } from 'expo-router';
-import { TextInput } from 'react-native-gesture-handler';
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList, GestureHandlerRootView, TextInput } from 'react-native-gesture-handler';
+
 
 import { useTemplateStore } from '../../store/templates';
 import { useExerciseStore } from '../../store/exercise';
@@ -107,55 +107,57 @@ export default function WorkoutsScreen() {
 
 
     return (
-        <View style={styles.container}>
-        <Text style={styles.title}>Workouts</Text>
-        <Text style={styles.text}>View a list of the available workout templates below!</Text>
-        <FlatList
-            data={workoutTemplates}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => <View>
-                <Text style={styles.header }>{item.name}</Text>
-
-                {/* nested flatlist */}
-                <FlatList
-                    data={item.exercises}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => <View>
-                        <Text style={styles.text}>{item.name}</Text>
-                        <Text style={styles.text}>{item.description}</Text>
-                    </View>}
-                
-                />
-                </View>}
-        />
-
-        <Button title="Add new workout template" onPress={() => setModalVisible(true)} />
-        <Modal visible={modalVisible} animationType="slide">
+        <GestureHandlerRootView>
             <View style={styles.container}>
-            <Text style={styles.title}>Create a new workout template </Text>
-            <TextInput 
-                style={styles.text} 
-                placeholder="Workout Name"
-                value={createWorkoutTemplate.name}
-                onChangeText={(name) => setCreateWorkoutTemplate({...createWorkoutTemplate, name})} />
+            <Text style={styles.title}>Workouts</Text>
+            <Text style={styles.text}>View a list of the available workout templates below!</Text>
+            <FlatList
+                data={workoutTemplates}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => <View>
+                    <Text style={styles.header }>{item.name}</Text>
 
-            <h4>Select Exercises</h4>
-            {exercises.map((exercise) => (
-                <View>
-                    <Text style={styles.text}>{exercise.name}</Text>
-                    <Button title="Add Exercise" onPress={() => handleAddExercise(exercise)} />
-                    <Button title="Remove Exercise" onPress={() => handleRemoveExercise(exercise)}/>
+                    {/* nested flatlist */}
+                    <FlatList
+                        data={item.exercises}
+                        keyExtractor={(item) => item.id}
+                        renderItem={({ item }) => <View>
+                            <Text style={styles.text}>{item.name}</Text>
+                            <Text style={styles.text}>{item.description}</Text>
+                        </View>}
                     
+                    />
+                    </View>}
+            />
+
+            <Button title="Add new workout template" onPress={() => setModalVisible(true)} />
+            <Modal visible={modalVisible} animationType="slide">
+                <View style={styles.container}>
+                <Text style={styles.title}>Create a new workout template </Text>
+                <TextInput 
+                    style={styles.text} 
+                    placeholder="Workout Name"
+                    value={createWorkoutTemplate.name}
+                    onChangeText={(name) => setCreateWorkoutTemplate({...createWorkoutTemplate, name})} />
+
+                <Text>Select Exercises</Text>
+                {exercises.map((exercise) => (
+                    <View>
+                        <Text style={styles.text}>{exercise.name}</Text>
+                        <Button title="Add Exercise" onPress={() => handleAddExercise(exercise)} />
+                        <Button title="Remove Exercise" onPress={() => handleRemoveExercise(exercise)}/>
+                        
+                    </View>
+                ))}
+                
+                
+                <Button title="Create Workout" onPress={handleCreateWorkout} />
+                <Button title="Cancel" onPress={() => setModalVisible(false)} />
                 </View>
-            ))}
-            
-            
-            <Button title="Create Workout" onPress={handleCreateWorkout} />
-            <Button title="Cancel" onPress={() => setModalVisible(false)} />
+            </Modal>
+        
             </View>
-        </Modal>
-       
-        </View>
+        </GestureHandlerRootView>
     );
     }
     

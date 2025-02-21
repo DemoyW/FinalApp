@@ -20,10 +20,10 @@ export default function LoginScreen() {
     console.log("message", message);
     if (message.success) {
       console.log("This is the success message", message.success)
-      Alert.alert("Login Successful", message);
+      // Alert.alert("Login Successful");
       router.navigate("/(tabs)/home");
     } else {
-      Alert.alert("Login Failed", message);
+      Alert.alert("Login Failed");
     }
   } catch (error) {
     console.error("Error during login:", error);

@@ -9,7 +9,8 @@ export const useUserStore = create((set) => ({
         if(!newUser.username || !newUser.password) {
             return { success: false, message: "Please provide a username and password" };
         }
-        const res = await fetch("http://localhost:8000/api/users", {
+        // const res = await fetch("http://localhost:8000/api/users", {
+        const res = await fetch("http://192.168.1.119:8000/api/users", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -19,14 +20,15 @@ export const useUserStore = create((set) => ({
         const data = await res.json();
         set((state) => ({ users: [...state.users, data.data] }));
         console.log(data);
-        return { success: true, message: "Product created successfully" };
+        return { success: true, message: "User created successfully" };
     },
     
     getUser: async (user) => {
         if(!user.username || !user.password) {
             return { success: false, message: "Please provide a username and password" };
         }
-        const res = await fetch("http://localhost:8000/api/users", {
+        // const res = await fetch("http://localhost:8000/api/users", {
+        const res = await fetch("http://192.168.1.119:8000/api/users", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -42,7 +44,8 @@ export const useUserStore = create((set) => ({
         if(!user.username || !user.password) {
             return { success: false, message: "Please provide a username and password" };
         }
-        const res = await fetch("http://localhost:8000/api/user/login", {
+        // const res = await fetch("http://localhost:8000/api/user/login", {
+        const res = await fetch("http://192.168.1.119:8000/api/user/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
