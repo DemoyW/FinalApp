@@ -6,6 +6,7 @@ import { FlatList } from 'react-native-gesture-handler';
 
 import { useTemplateStore } from '../../store/templates';
 import { useExerciseStore } from '../../store/exercise';
+import { set } from 'mongoose';
 
 
 
@@ -23,11 +24,16 @@ interface exercise {
 }
 
 export default function WorkoutsScreen() {
- 
+    const [createWorkoutTemplate, setCreateWorkoutTemplate] = useState({
+        name: '',
+        exercises: [] as exercise[],
+        user: '67944877fee0664a3453332f',
+    });
     const [workoutTemplates, setWorkoutsTemplates] = useState<Item[]>([]);
-    const { getTemplates } = useTemplateStore();
+    const { getTemplates, createTemplate } = useTemplateStore();
 
     const [exercises, setExercises] = useState<exercise[]>([]);
+    const [selectedExercises, setSelectedExercises] = useState<exercise[]>([]);
     const { getExercises } = useExerciseStore();
     
     useEffect(() => {
@@ -58,16 +64,41 @@ export default function WorkoutsScreen() {
 
     }, []);
   
+
+    const handleAddExercise = (exercise: exercise) => {
+        setSelectedExercises([...selectedExercises, exercise]);
+    }
+
+    const handleRemoveExercise = (exercise: exercise) => {
+        setSelectedExercises(selectedExercises.filter((selectedExercise) => selectedExercise.id !== exercise.id));
+    }
+
+    const handleCreateWorkout = async () => {
+        try {
+            setCreateWorkoutTemplate({...createWorkoutTemplate, exercises: selectedExercises});
+            console.log("Create workout template", createWorkoutTemplate);
+            const { success, message } = await createTemplate(createWorkoutTemplate);
+            if (success) {
+                console.log("Workout created successfully");
+                // setWorkoutsTemplates([...workoutTemplates, createWorkoutTemplate]);
+            } else {
+                console.error("Error creating workout:", message);
+        }
+    }
+    catch (error) {
+        console.error("Error creating workout:", error);
+    }
+    }
   
   
   
     ///adding new workout templates
     const [modalVisible, setModalVisible] = useState(false);
-    const [newWorkoutTemplate, setNewWorkoutTemplate] = useState({
-        name: '',
-        exercises: [],
-        user: '',
-    });
+    // const [newWorkoutTemplate, setNewWorkoutTemplate] = useState({
+    //     name: '',
+    //     exercises: [],
+    //     user: '',
+    // });
 
 
     
@@ -105,19 +136,21 @@ export default function WorkoutsScreen() {
             <TextInput 
                 style={styles.text} 
                 placeholder="Workout Name"
-                value={newWorkoutTemplate.name}
-                onChangeText={(name) => setNewWorkoutTemplate({...newWorkoutTemplate, name})} />
+                value={createWorkoutTemplate.name}
+                onChangeText={(name) => setCreateWorkoutTemplate({...createWorkoutTemplate, name})} />
 
             <h4>Select Exercises</h4>
             {exercises.map((exercise) => (
                 <View>
                     <Text style={styles.text}>{exercise.name}</Text>
-                    {/* <Button title="Add" onPress={() => setNewWorkoutTemplate({...newWorkoutTemplate, exercises: [...newWorkoutTemplate.exercises, exercise]})} /> */}
+                    <Button title="Add Exercise" onPress={() => handleAddExercise(exercise)} />
+                    <Button title="Remove Exercise" onPress={() => handleRemoveExercise(exercise)}/>
+                    
                 </View>
             ))}
-            <Button title="Remove" onPress={() => setNewWorkoutTemplate({...newWorkoutTemplate, exercises: newWorkoutTemplate.exercises.slice(0, -1)})} />
             
-            <Button title="Create Workout" onPress={() => setModalVisible(false)} />
+            
+            <Button title="Create Workout" onPress={handleCreateWorkout} />
             <Button title="Cancel" onPress={() => setModalVisible(false)} />
             </View>
         </Modal>

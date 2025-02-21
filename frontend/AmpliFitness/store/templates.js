@@ -16,7 +16,7 @@ export const useTemplateStore = create((set) => ({
             body: JSON.stringify(newTemplate),
         })
         const data = await res.json();
-        set((state) => ({ templates: [...state.templates, data.data] }));
+        // set((state) => ({ templates: [...state.templates, data.data] }));
         console.log(data);
         return { success: true, message: "Template created successfully" };
     },
