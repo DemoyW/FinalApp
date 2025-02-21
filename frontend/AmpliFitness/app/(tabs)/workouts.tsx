@@ -1,29 +1,48 @@
 import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, Modal, Button  } from 'react-native';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { FlatList, GestureHandlerRootView, TextInput } from 'react-native-gesture-handler';
-
+import { StackNavigationProp } from '@react-navigation/stack';
+import {  useNavigation } from '@react-navigation/native';
 
 import { useTemplateStore } from '../../store/templates';
 import { useExerciseStore } from '../../store/exercise';
-import { set } from 'mongoose';
+
+type RootStackParamList = {
+    Workouts: undefined;
+    logWorkout: { templateId: string };
+};
+
+type WorkoutsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Workouts'>;
+
+interface WorkoutsScreenProps {
+    navigation: WorkoutsScreenNavigationProp;
+}
 
 
 
 interface Item {
-    id: string;
+    _id: string;
     name: string;
     exercises: exercise[];
     user: string;
 }
 
 interface exercise {
-    id: string;
+    _id: string;
     name: string;
     description: string;
 }
 
-export default function WorkoutsScreen() {
+export default function WorkoutsScreen() { 
+    const router = useRouter();
+    const navigation = useNavigation<WorkoutsScreenNavigationProp>();
+
+
+
+
+
+
     const [createWorkoutTemplate, setCreateWorkoutTemplate] = useState({
         name: '',
         exercises: [] as exercise[],
@@ -42,6 +61,8 @@ export default function WorkoutsScreen() {
                 const allTemplates = await getTemplates();
                 console.log("All workouts test", allTemplates.message.data);
                 setWorkoutsTemplates(allTemplates.message.data);
+                console.log("This is the workout templates in the frontend", workoutTemplates);
+
             } catch (error) {
                 console.error("Error fetching workouts:", error);
             }
@@ -70,7 +91,7 @@ export default function WorkoutsScreen() {
     }
 
     const handleRemoveExercise = (exercise: exercise) => {
-        setSelectedExercises(selectedExercises.filter((selectedExercise) => selectedExercise.id !== exercise.id));
+        setSelectedExercises(selectedExercises.filter((selectedExercise) => selectedExercise._id !== exercise._id));
     }
 
     const handleCreateWorkout = async () => {
@@ -109,26 +130,39 @@ export default function WorkoutsScreen() {
     return (
         <GestureHandlerRootView>
             <View style={styles.container}>
+
+
+
+
             <Text style={styles.title}>Workouts</Text>
             <Text style={styles.text}>View a list of the available workout templates below!</Text>
             <FlatList
                 data={workoutTemplates}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item._id}
                 renderItem={({ item }) => <View>
                     <Text style={styles.header }>{item.name}</Text>
+                    {/* <Text style={styles.text}>ID: {item._id}</Text> */}
 
                     {/* nested flatlist */}
                     <FlatList
                         data={item.exercises}
-                        keyExtractor={(item) => item.id}
-                        renderItem={({ item }) => <View>
-                            <Text style={styles.text}>{item.name}</Text>
-                            <Text style={styles.text}>{item.description}</Text>
+                        keyExtractor={(exercise) => exercise._id}
+                        renderItem={({ item: exercise }) => <View>
+                            <Text style={styles.text}>{exercise.name}</Text>
+                            <Text style={styles.text}>{exercise.description}</Text>
+                            {/* <Text style={styles.text}>{exercise._id}</Text> */}
+
                         </View>}
                     
                     />
+                    <Button title="Start Workout" onPress={() => console.log(item._id)} />  
+                    <Button title="trying to pass props" onPress={() => navigation.navigate("logWorkout", {templateId: item._id})} />
+
+                    <Text style={styles.text}>_________________________</Text>
                     </View>}
             />
+
+
 
             <Button title="Add new workout template" onPress={() => setModalVisible(true)} />
             <Modal visible={modalVisible} animationType="slide">
