@@ -6,6 +6,8 @@ import { connectDB } from "./config/db.js";
 import userRoutes from "./routes/user.route.js";
 import exerciseRoutes from "./routes/exercise.route.js";
 import workoutTemplateRoutes from "./routes/workoutTemplate.route.js";
+import workoutRoutes from "./routes/workout.route.js";
+import workoutExerciseRoutes from "./routes/workoutExercise.route.js";
 
 dotenv.config();
 
@@ -19,6 +21,8 @@ app.use(cors());
 app.use("/api", userRoutes);
 app.use("/api", exerciseRoutes);
 app.use("/api", workoutTemplateRoutes);
+app.use("/api", workoutRoutes);
+app.use("/api", workoutExerciseRoutes);
 
 
 app.listen(PORT, () => {

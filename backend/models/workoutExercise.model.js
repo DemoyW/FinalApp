@@ -1,15 +1,7 @@
 import mongoose from "mongoose";
 
-const workoutExerciseSchema = new mongoose.Schema({
-    workout: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Workout"
-    },
-    exercise: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Exercise"
-    },
-    sets: {
+const setSchema = new mongoose.Schema({
+    setNumber: {
         type: Number,
         required: true
     },
@@ -22,3 +14,19 @@ const workoutExerciseSchema = new mongoose.Schema({
         required: true
     }
 });
+
+const workoutExerciseSchema = new mongoose.Schema({
+    workout: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Workout"
+    },
+    exercise: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Exercise"
+    },
+    sets: [setSchema],
+});
+
+const WorkoutExercise = mongoose.model("WorkoutExercise", workoutExerciseSchema);
+
+export default WorkoutExercise;

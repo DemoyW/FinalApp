@@ -13,12 +13,14 @@ const workoutSchema = new mongoose.Schema({
             ref: "WorkoutExercise"
         }
     ],
-    date: {
-        type: Date,
-        required: true
-    },
     notes: {
         type: String
     }
 
+}, {
+    timestamps: true
 });
+
+const Workout = mongoose.model("Workout", workoutSchema);
+
+export default Workout;
