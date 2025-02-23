@@ -1,3 +1,4 @@
+// import { get } from 'mongoose';
 import { create} from 'zustand';
 
 export const useTemplateStore = create((set) => ({
@@ -22,7 +23,7 @@ export const useTemplateStore = create((set) => ({
         return { success: true, message: "Template created successfully" };
     },
     
-    getTemplates: async () => {
+    getAllTemplates: async () => {
         // const res = await fetch("http://localhost:8000/api/workout-templates", {
         const res = await fetch("http://192.168.1.119:8000/api/workout-templates", {
             method: "GET",
@@ -61,4 +62,17 @@ export const useTemplateStore = create((set) => ({
         set((state) => ({ templates: state.templates.map((t) => t._id === template._id ? template : t) }));
         return { success: true, message: "Template updated successfully" };
     },
+
+    getTemplate: async (id) => {
+        // const res = await fetch(`http://localhost:8000/api/templates/${id}`, {
+        const res = await fetch(`http://192.168.1.119:8000/api/workout-templates/${id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+        const data = await res.json();
+        console.log(data);
+        return {success: true, message: data};
+    }
 }));

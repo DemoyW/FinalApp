@@ -49,7 +49,7 @@ export default function WorkoutsScreen() {
         user: '67944877fee0664a3453332f',
     });
     const [workoutTemplates, setWorkoutsTemplates] = useState<Item[]>([]);
-    const { getTemplates, createTemplate } = useTemplateStore();
+    const { getAllTemplates, createTemplate } = useTemplateStore();
 
     const [exercises, setExercises] = useState<exercise[]>([]);
     const [selectedExercises, setSelectedExercises] = useState<exercise[]>([]);
@@ -58,7 +58,7 @@ export default function WorkoutsScreen() {
     useEffect(() => {
         const fetchTemplates = async () => {
             try {
-                const allTemplates = await getTemplates();
+                const allTemplates = await getAllTemplates();
                 console.log("All workouts test", allTemplates.message.data);
                 setWorkoutsTemplates(allTemplates.message.data);
                 console.log("This is the workout templates in the frontend", workoutTemplates);
