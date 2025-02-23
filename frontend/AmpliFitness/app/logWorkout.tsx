@@ -26,12 +26,15 @@ interface exercise {
     description: string;
 }
 
-interface workoutExercises {
-    _id: string;
-    name: string;
-    sets: number;
+interface set {
+    setNumber: number;
     reps: number;
     weight: number;
+}
+
+interface workoutExercises {
+    exercise: exercise
+    sets: set[]
 }
 
 
