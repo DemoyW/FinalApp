@@ -58,6 +58,18 @@ export const useUserStore = create((set) => ({
         console.log("Where does this go");
         return { success: true, message: data };
     },
+    getAllUsers: async () => {
+        const res = await fetch("http://localhost:8000/api/users", {
+        // const res = await fetch("http://192.168.1.119:80000/api/users", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+        const data = await res.json();
+        console.log(data);
+        return {success: true, message: data};
+    }
 }));
 
 // export const useExerciseStore = create((set) => ({
