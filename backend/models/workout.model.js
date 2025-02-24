@@ -4,7 +4,6 @@ const workoutSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        unique: true,
         trim: true
     },
     workoutExercises: [
@@ -16,7 +15,6 @@ const workoutSchema = new mongoose.Schema({
     notes: {
         type: String
     }
-
 }, {
     timestamps: true
 });
