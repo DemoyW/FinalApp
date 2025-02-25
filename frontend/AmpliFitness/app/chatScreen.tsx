@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Button } from "react-native";
 import { useUserStore } from "@/store/user";
 import { FlatList, GestureHandlerRootView } from "react-native-gesture-handler";
 import { RouteProp, useRoute } from "@react-navigation/native";
@@ -14,6 +14,7 @@ export default function ChatScreen() {
     const [recipient, setRecipient] = useState<string>("");
 
     const { getUserById } = useUserStore();
+    const { userId } = useUserStore();
 
     const fetchRecipient = async () => {
         try {
@@ -31,10 +32,16 @@ export default function ChatScreen() {
     }
     , []);
 
+    const showId = () => {
+        console.log("This is the senders id", userId);
+    }
+
 
     return (
         <View style={styles.container}>
             <Text style={styles.text}>{recipient}</Text>
+            <Button title="Show Id" onPress={showId} />
+            <Text style={styles.text}>Chat with other users</Text>
         </View>
     );
 }
