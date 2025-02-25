@@ -55,32 +55,32 @@ export default function WorkoutsScreen() {
     const [selectedExercises, setSelectedExercises] = useState<exercise[]>([]);
     const { getExercises } = useExerciseStore();
     
-    useEffect(() => {
-        const fetchTemplates = async () => {
-            try {
-                const allTemplates = await getAllTemplates();
-                console.log("All workouts test", allTemplates.message.data);
-                setWorkoutsTemplates(allTemplates.message.data);
-                console.log("This is the workout templates in the frontend", workoutTemplates);
+    const fetchTemplates = async () => {
+        try {
+            const allTemplates = await getAllTemplates();
+            console.log("All workouts test", allTemplates.message.data);
+            setWorkoutsTemplates(allTemplates.message.data);
+            console.log("This is the workout templates in the frontend", workoutTemplates);
 
-            } catch (error) {
-                console.error("Error fetching workouts:", error);
-            }
-        };
+        } catch (error) {
+            console.error("Error fetching workouts:", error);
+        }
+    };
+    const fetchExercises = async () => {
+        try {
+            const allExercises = await getExercises();
+            // console.log("All exercises", allExercises);
+            // console.log("All exercises test", allExercises.message.data);
+            setExercises(allExercises.message.data);
+            // console.log("Did this work?", exercises);
+        } catch (error) {
+            console.error("Error fetching exercises:", error);
+        }
+    };
+    useEffect(() => {
         fetchTemplates();
 
 
-        const fetchExercises = async () => {
-            try {
-                const allExercises = await getExercises();
-                // console.log("All exercises", allExercises);
-                // console.log("All exercises test", allExercises.message.data);
-                setExercises(allExercises.message.data);
-                // console.log("Did this work?", exercises);
-            } catch (error) {
-                console.error("Error fetching exercises:", error);
-            }
-        };
         fetchExercises();
 
     }, []);
@@ -101,6 +101,7 @@ export default function WorkoutsScreen() {
             const { success, message } = await createTemplate(createWorkoutTemplate);
             if (success) {
                 console.log("Workout created successfully");
+                fetchTemplates();
                 // setWorkoutsTemplates([...workoutTemplates, createWorkoutTemplate]);
             } else {
                 console.error("Error creating workout:", message);

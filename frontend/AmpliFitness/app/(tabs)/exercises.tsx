@@ -1,10 +1,27 @@
-import { useState, useEffect} from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState, useEffect} from 'react';
+import { View, Text, StyleSheet, Button } from 'react-native';
 import { Link } from 'expo-router';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import { useExerciseStore } from '../../store/exercise';
 import { FlatList, GestureHandlerRootView } from 'react-native-gesture-handler';
 
+
+type RootStackParamList = {
+    Exercises: undefined;
+    addExercise: undefined;
+    profile: undefined;
+    index: undefined;
+    chatScreen: undefined;
+    newExercise: undefined;
+};
+
+type ExercisesScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Exercises'>;
+
+interface ExercisesScreenProps {
+    navigation: ExercisesScreenNavigationProp;
+}
 
 interface Item {
     id: string;
@@ -13,26 +30,35 @@ interface Item {
 }
 
 export default function ExercisesScreen() {
+    const navigation = useNavigation<ExercisesScreenNavigationProp>();
     const [exercises, setExercises] = useState<Item[]>([]);
 
 
     const { getExercises } = useExerciseStore();
     
 
+    const fetchExercises = async () => {
+        try {
+            const allExercises = await getExercises();
+            // console.log("All exercises", allExercises);
+            // console.log("All exercises test", allExercises.message.data);
+            setExercises(allExercises.message.data);
+            // console.log("Did this work?", exercises);
+        } catch (error) {
+            console.error("Error fetching exercises:", error);
+        }
+    };
     useEffect(() => {
-        const fetchExercises = async () => {
-            try {
-                const allExercises = await getExercises();
-                // console.log("All exercises", allExercises);
-                // console.log("All exercises test", allExercises.message.data);
-                setExercises(allExercises.message.data);
-                // console.log("Did this work?", exercises);
-            } catch (error) {
-                console.error("Error fetching exercises:", error);
-            }
-        };
         fetchExercises();
     }, []);
+    
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchExercises();
+        }, [])
+    );
+
+
 
 
     return (
@@ -47,6 +73,10 @@ export default function ExercisesScreen() {
                     <Text style={styles.text}>{item.name}</Text>
                     <Text style={styles.text}>{item.description}</Text>
                     </View>}
+            />
+            <Button
+                title="Add Exercise"
+                onPress={() => navigation.navigate("addExercise")}
             />
             </View>
         </GestureHandlerRootView>
