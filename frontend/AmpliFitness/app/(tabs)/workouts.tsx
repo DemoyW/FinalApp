@@ -154,11 +154,10 @@ export default function WorkoutsScreen() {
 
                         </View>}
                     
-                    />
-                    <Button title="Start Workout" onPress={() => console.log(item._id)} />  
-                    <Button title="trying to pass props" onPress={() => navigation.navigate("logWorkout", {templateId: item._id})} />
+                    /> 
+                    <Button title="Start Workout" onPress={() => navigation.navigate("logWorkout", {templateId: item._id})} />
 
-                    <Text style={styles.text}>_________________________</Text>
+                    {/* <Text style={styles.text}>_________________________</Text> */}
                     </View>}
             />
 
