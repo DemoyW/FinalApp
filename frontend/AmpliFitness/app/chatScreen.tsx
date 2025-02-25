@@ -34,20 +34,25 @@ export default function ChatScreen() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Chats</Text>
-            <Text style={styles.text}>Chat with other users</Text>
-            <Text>{recipient}</Text>
+            <Text style={styles.text}>{recipient}</Text>
         </View>
     );
 }
 
+
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
+        // justifyContent: 'center',
+        alignItems: 'center',
+        padding: 16,
+        backgroundColor : "lightblue",
     },
+
     text: {
-        fontSize: 20,
+        fontSize: 40,
+        fontWeight: 'bold',
     },
-});
+ 
+    });
