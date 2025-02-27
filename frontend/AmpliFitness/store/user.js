@@ -79,7 +79,7 @@ export const useUserStore = create((set) => ({
             },
         })
         const data = await res.json();
-        console.log(data);
+        // console.log(data);
         return {success: true, message: data};
     }
 }));
