@@ -10,6 +10,7 @@ import exerciseRoutes from "./routes/exercise.route.js";
 import workoutTemplateRoutes from "./routes/workoutTemplate.route.js";
 import workoutRoutes from "./routes/workout.route.js";
 import workoutExerciseRoutes from "./routes/workoutExercise.route.js";
+import messageRoutes from "./routes/message.route.js"
 import { SocketAddress } from "net";
 
 dotenv.config();
@@ -29,6 +30,7 @@ app.use("/api", exerciseRoutes);
 app.use("/api", workoutTemplateRoutes);
 app.use("/api", workoutRoutes);
 app.use("/api", workoutExerciseRoutes);
+app.use("/api", messageRoutes)
 
 let users = {};
 

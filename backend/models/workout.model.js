@@ -6,12 +6,7 @@ const workoutSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    workoutExercises: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "WorkoutExercise"
-        }
-    ],
+
     notes: {
         type: String
     }
