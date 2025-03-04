@@ -47,7 +47,7 @@ io.on("connection", (socket) => {
         const targetUser = users[toUser];
         if (targetUser) {
             io.to(targetUser).emit('new_message', message);
-            console.log(`Message setn to ${toUser}`, message)
+            console.log(`Message sent to ${toUser}`, message)
         } else {
             console.log("Targer user not found")
         }
