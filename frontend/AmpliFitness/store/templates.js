@@ -9,8 +9,8 @@ export const useTemplateStore = create((set) => ({
         if(!newTemplate.name) {
             return { success: false, message: "Please provide a name for the template" };
         }
-        // const res = await fetch("http://localhost:8000/api/workout-templates", {
-        const res = await fetch("http://192.168.1.119:8000/api/workout-templates", {
+        const res = await fetch("http://localhost:8000/api/workout-templates", {
+        // const res = await fetch("http://192.168.1.119:8000/api/workout-templates", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -24,8 +24,8 @@ export const useTemplateStore = create((set) => ({
     },
     
     getAllTemplates: async () => {
-        // const res = await fetch("http://localhost:8000/api/workout-templates", {
-        const res = await fetch("http://192.168.1.119:8000/api/workout-templates", {
+        const res = await fetch("http://localhost:8000/api/workout-templates", {
+        // const res = await fetch("http://192.168.1.119:8000/api/workout-templates", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -37,8 +37,8 @@ export const useTemplateStore = create((set) => ({
     },
     
     deleteTemplate: async (template) => {
-        // const res = await fetch(`http://localhost:8000/api/templates/${template._id}`, {
-        const res = await fetch(`http://192.168.1.119:8000/api/templates/${template._id}`, {
+        const res = await fetch(`http://localhost:8000/api/templates/${template._id}`, {
+        // const res = await fetch(`http://192.168.1.119:8000/api/templates/${template._id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -50,8 +50,8 @@ export const useTemplateStore = create((set) => ({
     },
     
     updateTemplate: async (template) => {
-        // const res = await fetch(`http://localhost:8000/api/templates/${template._id}`, {
-        const res = await fetch(`http://192.168.1.119:8000/api/templates/${template._id}`, {
+        const res = await fetch(`http://localhost:8000/api/templates/${template._id}`, {
+        // const res = await fetch(`http://192.168.1.119:8000/api/templates/${template._id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -64,8 +64,8 @@ export const useTemplateStore = create((set) => ({
     },
 
     getTemplate: async (id) => {
-        // const res = await fetch(`http://localhost:8000/api/templates/${id}`, {
-        const res = await fetch(`http://192.168.1.119:8000/api/workout-templates/${id}`, {
+        const res = await fetch(`http://localhost:8000/api/workout-templates/${id}`, {
+        // const res = await fetch(`http://192.168.1.119:8000/api/workout-templates/${id}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

@@ -5,7 +5,7 @@ import { useSearchParams } from "expo-router/build/hooks";
 
 import { useTemplateStore } from "@/store/templates";
 import { useExerciseStore } from "@/store/exercise";
-import { FlatList, GestureHandlerRootView } from "react-native-gesture-handler";
+import { FlatList, GestureHandlerRootView, TextInput } from "react-native-gesture-handler";
 
 type LogWorkoutRouteProp = RouteProp<{ params: { templateId: string } }, "params">;
 
@@ -80,6 +80,11 @@ export default function LogWorkoutScreen() {
                     <Text>Reps</Text>
                     <Text>Weight</Text>
                 </View>
+                <View style={styles.items}>
+                    <TextInput style={styles.entry} placeholder="first"/>
+                    <TextInput style={styles.entry} placeholder="second"/>
+                    <TextInput style={styles.entry} placeholder="third"/>
+                </View>
             </View>
         );
     }
@@ -125,5 +130,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
+    },
+    entry: {
+        backgroundColor: "grey"
     }
 });
