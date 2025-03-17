@@ -1,3 +1,4 @@
+import { Link } from 'expo-router';
 import {Text, View, StyleSheet} from 'react-native';
 
 export default function SettingsScreen() {
@@ -5,7 +6,7 @@ export default function SettingsScreen() {
     <View style={styles.container}>
       <Text style={styles.text}>Settings</Text>
       <Text style={styles.text}>Change Email</Text>
-      <Text style={styles.text}>Change Password</Text>
+      <Link href="../changePassword" style={styles.button}>Change Password</Link>
       <Text style={styles.text}>Change Notification Settings</Text>
       <Text style={styles.text}>Change Privacy Settings</Text>
       <Text style={styles.text}>Change Profile Information</Text>
