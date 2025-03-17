@@ -2,7 +2,11 @@ import Workout from "../models/workout.model.js";
 
 export const getWorkouts = async (req, res) => {
     try {
-        const workouts = await Workout.find({});
+        const workouts = await Workout.find({ user: req.params.id }).populate("exercises.exercise");
+
+        if(!workouts) {
+            return res.status(404).json({ success: false, message: "Workout not found" });
+        }
 
         res.status(200).json({ success: true, data: workouts });
     } catch (error) {

@@ -3,7 +3,7 @@ import { getWorkouts, createWorkout } from "../controllers/workout.controller.js
 
 const router = express.Router();
 
-router.get("/workouts/", getWorkouts);
+router.get("/workouts/:id", getWorkouts);
 
 router.post("/workouts/", createWorkout);
 
