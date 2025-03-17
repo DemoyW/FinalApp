@@ -1,19 +1,18 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
-import { useUserStore } from '../store/user';
-import { Link } from 'expo-router';
+import React, {useState} from "react";
+import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
+import { useUserStore } from "@/store/user";
+import { Link } from "expo-router";
 
-const SignupScreen = () => {
-    const [newUser, setNewUser] = useState({
+const TrainerSignupScreen = () => {
+    const [newTrainer, setNewTrainer] = useState({
         username: '',
         password: '',
     });
 
-
     const {createUser} = useUserStore()
     const handleSignup = async() => {
     try {
-        const {success, message} = await createUser(newUser)
+        const {success, message} = await createUser(newTrainer)
         // developement messages
         // console.log("success:", success)
         // console.log("message:", message)
@@ -30,14 +29,15 @@ const SignupScreen = () => {
     }
     };
 
+
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Sign Up</Text>
+            <Text style={styles.title}>Trainer Sign Up</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Username"
-                value={newUser.username}
-                onChangeText={(username) => setNewUser({ ...newUser, username })}
+            //   value={newUser.username}
+            //   onChangeText={(username) => setNewUser({ ...newUser, username })}
             />
             <TextInput
                 style={styles.input}
@@ -60,16 +60,22 @@ const SignupScreen = () => {
             <TextInput
                 style={styles.input}
                 placeholder="Password"
-                value={newUser.password}
-                onChangeText={(password) => setNewUser({ ...newUser, password })}
-                secureTextEntry
+            //   value={newUser.password}
+            //   onChangeText={(password) => setNewUser({ ...newUser, password })}
+            //   secureTextEntry
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Specialities"
             />
             <Button title="Sign Up" onPress={handleSignup} />
-            <Link href="/trainersignup" style={styles.button}>Are you a trainer? Sign up here</Link>
+            <Link href="/signup" style={styles.button}>Not a trainer? Sign up here</Link>
             <Link href="/login" style={styles.button}>Log In</Link>
+
         </View>
     );
-};
+}
+
 
 const styles = StyleSheet.create({
     container: {
@@ -98,4 +104,6 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SignupScreen;
+
+export default TrainerSignupScreen;
+

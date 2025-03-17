@@ -30,3 +30,5 @@ const workoutExerciseSchema = new mongoose.Schema({
 const WorkoutExercise = mongoose.model("WorkoutExercise", workoutExerciseSchema);
 
 export default WorkoutExercise;
+
+//// THiS IS THE OLD IMPLEMENTATION

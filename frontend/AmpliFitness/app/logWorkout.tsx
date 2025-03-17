@@ -24,6 +24,7 @@ interface exercise {
     _id: string;
     name: string;
     description: string;
+    sets: set[];
 }
 
 interface set {
@@ -71,6 +72,17 @@ export default function LogWorkoutScreen() {
     }
 
 
+    const renderSetItem = ({ item, index }: { item: set; index: number }) => {
+        return (
+            <View style={styles.items}>
+                <Text style={styles.entry}>{index + 1}</Text>
+                <TextInput style={styles.entry} placeholder="Reps" value={item.reps.toString()} />
+                <TextInput style={styles.entry} placeholder="Weight" value={item.weight.toString()} />
+            </View>
+        );
+    };
+    
+
     const renderItem = ({ item }: { item: exercise }) => {
         return (
             <View style={styles.setContainer}>
@@ -80,14 +92,14 @@ export default function LogWorkoutScreen() {
                     <Text>Reps</Text>
                     <Text>Weight</Text>
                 </View>
-                <View style={styles.items}>
-                    <TextInput style={styles.entry} placeholder="first"/>
-                    <TextInput style={styles.entry} placeholder="second"/>
-                    <TextInput style={styles.entry} placeholder="third"/>
-                </View>
+                <FlatList
+                    data={item.sets}
+                    keyExtractor={(set, index) => index.toString()}
+                    renderItem={renderSetItem}
+                />
             </View>
         );
-    }
+    };
 
     return (
         <GestureHandlerRootView>
@@ -119,7 +131,7 @@ const styles = StyleSheet.create({
         marginBottom: 16,
     },
     setContainer: {
-        width: 300,
+        width: 500,
         height: 150,
         backgroundColor: "lightblue",
         borderRadius: 20,
@@ -130,8 +142,14 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
+        marginVertical: 5,
     },
     entry: {
-        backgroundColor: "grey"
+        flex: 1,
+        marginHorizontal: 2,
+        padding: 2,
+        backgroundColor: "lightgrey",
+        borderRadius: 30,
+        textAlign: "center",
     }
 });
