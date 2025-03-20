@@ -1,5 +1,33 @@
 import mongoose from "mongoose";
 
+
+const setSchema = new mongoose.Schema({
+    setNumber: {
+        type: Number,
+        required: true
+    },
+    reps: {
+        type: Number,
+        default: 0
+
+    },
+    weight: {
+        type: Number,
+        default: 0
+    
+    }
+});
+
+const exerciseSchema = new mongoose.Schema({
+    exercise: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Exercise",
+        required: true
+    },
+    sets: [setSchema]
+});
+
+
 const workoutTemplateSchema = new mongoose.Schema({
         name: {
             type: String,
@@ -7,12 +35,7 @@ const workoutTemplateSchema = new mongoose.Schema({
             unique: true,
             trim: true
         },
-        exercises: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Exercise"
-            }
-        ],
+        exercises: [exerciseSchema],
         user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"

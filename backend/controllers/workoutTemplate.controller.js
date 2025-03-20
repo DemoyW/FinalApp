@@ -32,7 +32,7 @@ export const createWorkoutTemplate = async (req, res) => {
 
 export const getWorkoutTemplateById = async (req, res) => {
     try {
-        const workoutTemplate = await WorkoutTemplate.findById(req.params.id).populate("exercises");
+        const workoutTemplate = await WorkoutTemplate.findById(req.params.id).populate("exercises.exercise");
 
         if(!workoutTemplate) {
             return res.status(404).json({ success: false, message: "Workout template not found" });
