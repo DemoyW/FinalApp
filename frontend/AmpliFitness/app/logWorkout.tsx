@@ -27,6 +27,7 @@ interface exercise {
 }
 
 interface set {
+    _id: string;
     setNumber: number;
     reps: number;
     weight: number;
@@ -70,17 +71,54 @@ export default function LogWorkoutScreen() {
         console.log("This is the template in the frontend", template);
     }
 
+
+    const handleSetChange = (exerciseId: string, setIndex: number, field: string, value: string) => {
+        console.log("on change has been called")
+        console.log( "Field", field, "Value", value);
+        setTemplate((prevTemplate) => {
+            if (!prevTemplate) {
+                console.log("No template found");
+                return prevTemplate;
+            }
+            const updatedExercises = prevTemplate.exercises.map((exercise) => {
+                if (exercise._id === exerciseId) {
+                    const updatedSets = exercise.sets.map((set, index) => {
+                        if (index === setIndex) {
+                            console.log("Field", field);
+                            console.log("Value", value);
+                            return { ...set, [field]: parseInt(value) };
+                        }
+                        console.log("Set", set);
+                        return set;
+                    });
+                    console.log("Updated sets", updatedSets);
+                    return { ...exercise, sets: updatedSets };
+                }
+                console.log("Exercise", exercise);
+                return exercise;
+            });
+            console.log("Updated exercises", updatedExercises);
+            return { ...prevTemplate, exercises: updatedExercises };
+        });
+    };
+
     // Define a function to render each set item
     //
     //
-    const renderSetItem = ({ item, index }: { item: set; index: number }) => {
+    const renderSetItem = ({ item, index, exerciseId }: { item: set; index: number; exerciseId: string }) => {
         return (
             <View style={styles.items}>
                 <Text style={styles.entry}>{index + 1}</Text>
                 {/* <TextInput style={styles.entry} placeholder="reps placeholder" />
                 <TextInput style={styles.entry} placeholder="weight placeholder" /> */}
                 
-                <TextInput style={styles.entry} placeholder="Reps" value={item.reps.toString()} />
+                <TextInput 
+                    style={styles.entry} 
+                    placeholder={item.reps.toString()} 
+                    // value={item.reps.toString()} 
+                    onChangeText={(value) => handleSetChange(exerciseId, index, "reps", value)}
+                    keyboardType="numeric"
+                />
                 <TextInput style={styles.entry} placeholder="Weight" value={item.weight.toString()} />
             </View>
         );
@@ -101,7 +139,7 @@ export default function LogWorkoutScreen() {
                 <FlatList
                     data={item.sets}
                     keyExtractor={(set, index) => index.toString()}
-                    renderItem={renderSetItem}
+                    renderItem={({ item, index }) => renderSetItem({ item, index, exerciseId: item._id })}
                 />
             </View>
         );
