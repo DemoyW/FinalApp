@@ -9,10 +9,11 @@ import { useNavigation } from "@react-navigation/native";
 import DropDownPicker from "react-native-dropdown-picker";
 
 type RootStackParamList = {
-    ExerciseAnalytics: { exerciseId: string };
+    Analytics: undefined;
+    exerciseAnalyticsScreen: { exerciseId: string };
 };
 
-type AnalyticsScreenNavigationProp = StackNavigationProp<RootStackParamList, "ExerciseAnalytics">;
+type AnalyticsScreenNavigationProp = StackNavigationProp<RootStackParamList, "Analytics">;
 
 interface AnalyticsScreenProps {
     navigation: AnalyticsScreenNavigationProp;
@@ -112,7 +113,7 @@ export default function AnalyticsScreen() {
         if (value) {
 
             setSelectedExercise(value);
-            navigation.navigate("ExerciseAnalytics", { exerciseId: value });
+            navigation.navigate("exerciseAnalyticsScreen", { exerciseId: value });
         }
     };
 
