@@ -13,9 +13,9 @@ type RootStackParamList = {
 
 type ChatScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Chat'>;
 
-interface ChatScreenProps {
-    navigation: ChatScreenNavigationProp;
-}
+// interface ChatScreenProps {
+//     navigation: ChatScreenNavigationProp;
+// }
 
 interface Item {
     _id: string;
