@@ -10,7 +10,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 
 type RootStackParamList = {
     Analytics: undefined;
-    exerciseAnalyticsScreen: { exerciseId: string };
+    exerciseAnalytics: { exerciseId: string };
 };
 
 type AnalyticsScreenNavigationProp = StackNavigationProp<RootStackParamList, "Analytics">;
@@ -113,7 +113,7 @@ export default function AnalyticsScreen() {
         if (value) {
 
             setSelectedExercise(value);
-            navigation.navigate("exerciseAnalyticsScreen", { exerciseId: value });
+            navigation.navigate("exerciseAnalytics", { exerciseId: value });
         }
     };
 
@@ -178,6 +178,7 @@ export default function AnalyticsScreen() {
                                 backgroundGradientTo: "#fff",
                                 decimalPlaces: 2,
                                 color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                                useShadowColorFromDataset: false,
                                 style: {
                                     borderRadius: 16,
                                 },

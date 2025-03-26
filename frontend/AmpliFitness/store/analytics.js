@@ -19,8 +19,9 @@ export const useAnalyticsStore = create((set) => ({
     },
 
     getAnalyticByExerciseId: async (exerciseId, userId) => {
+        console.log("this is the exercise id and user id passed in: ", exerciseId, userId);
         const res = await fetch(`http://localhost:8000/api/analytics/${userId}/${exerciseId}`, {
-        // const res = await fetch(`http://192.168.1.119:8000/api/analytics/${exerciseId}`, {
+        // const res = await fetch(`http://192.168.1.119:8000/api/analytics/${userId}/${exerciseId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
