@@ -1,4 +1,5 @@
-import { createUser, loginUser } from "../../frontend/AmpliFitness/store/user"
+import { createUserTest, loginUserTest } from "../../frontend/AmpliFitness/store/user"
+
 
 global.fetch = jest.fn();
 
@@ -15,7 +16,7 @@ describe('User Authentication', () => {
             json: jest.fn().mockResolvedValue(mockResponse),
         });
 
-        const user = await createUser({ name: 'John Doe', email: 'john@example.com', password: 'password' });
+        const user = await createUserTest({ name: 'John Doe', email: 'john@example.com', password: 'password' });
         expect(user).toEqual(mockResponse);
     });
 
@@ -25,7 +26,7 @@ describe('User Authentication', () => {
             json: jest.fn().mockResolvedValue(mockResponse),
         });
 
-        const response = await loginUser({ email: 'john@example.com', password: 'password' });
+        const response = await loginUserTest({ email: 'john@example.com', password: 'password' });
         expect(response).toEqual(mockResponse);
     });
 });

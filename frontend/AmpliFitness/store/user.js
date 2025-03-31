@@ -85,18 +85,17 @@ export const useUserStore = create((set) => ({
 }));
 
 
-// testing purposes
 
-export const createUser = async (newUser) => {
+export const createUserTest = async (newUser) => {
     const { createUser } = useUserStore.getState();
     return await createUser(newUser);
 };
 
-export const loginUser = async (user) => {
+export const loginUserTest = async (user) => {
     const { loginUser } = useUserStore.getState();
     return await loginUser(user);
 };
 
 
 
-// // need to change localhost to device ip address when using movile device
+// // need to change localhost to device ip address when using mobile device
