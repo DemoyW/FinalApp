@@ -6,7 +6,9 @@ import { Link } from "expo-router";
 const TrainerSignupScreen = () => {
     const [newTrainer, setNewTrainer] = useState({
         username: '',
+        email: '',
         password: '',
+        isTrainer: true,
     });
 
     const {createUser} = useUserStore()
@@ -36,33 +38,22 @@ const TrainerSignupScreen = () => {
             <TextInput
                 style={styles.input}
                 placeholder="Username"
-            //   value={newUser.username}
-            //   onChangeText={(username) => setNewUser({ ...newUser, username })}
+                value={newTrainer.username}
+                onChangeText={(username) => setNewTrainer({ ...newTrainer, username })}
             />
-            <TextInput
-                style={styles.input}
-                placeholder="First Name"
-                // value={newUser.username}
-                // onChangeText={(username) => setNewUser({ ...newUser, username })}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Last Name"
-                // value={newUser.username}
-                // onChangeText={(username) => setNewUser({ ...newUser, username })}
-            />
+
             <TextInput
                 style={styles.input}
                 placeholder="Email"
-                // value={newUser.username}
-                // onChangeText={(username) => setNewUser({ ...newUser, username })}
-            />
+                value={newTrainer.email}
+                onChangeText={(email) => setNewTrainer({ ...newTrainer, email })}
+            />c 
             <TextInput
                 style={styles.input}
                 placeholder="Password"
-            //   value={newUser.password}
-            //   onChangeText={(password) => setNewUser({ ...newUser, password })}
-            //   secureTextEntry
+                value={newTrainer.password}
+                onChangeText={(password) => setNewTrainer({ ...newTrainer, password })}
+                secureTextEntry={true}
             />
             <TextInput
                 style={styles.input}

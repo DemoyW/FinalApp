@@ -6,6 +6,7 @@ import { Link } from 'expo-router';
 const SignupScreen = () => {
     const [newUser, setNewUser] = useState({
         username: '',
+        email: '',
         password: '',
     });
 
@@ -39,7 +40,7 @@ const SignupScreen = () => {
                 value={newUser.username}
                 onChangeText={(username) => setNewUser({ ...newUser, username })}
             />
-            <TextInput
+            {/* <TextInput
                 style={styles.input}
                 placeholder="First Name"
                 // value={newUser.username}
@@ -50,12 +51,12 @@ const SignupScreen = () => {
                 placeholder="Last Name"
                 // value={newUser.username}
                 // onChangeText={(username) => setNewUser({ ...newUser, username })}
-            />
+            /> */}
             <TextInput
                 style={styles.input}
                 placeholder="Email"
-                // value={newUser.username}
-                // onChangeText={(username) => setNewUser({ ...newUser, username })}
+                value={newUser.email}
+                onChangeText={(email) => setNewUser({ ...newUser, email })}
             />
             <TextInput
                 style={styles.input}

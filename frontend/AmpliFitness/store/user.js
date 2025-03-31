@@ -6,8 +6,8 @@ export const useUserStore = create((set) => ({
     setUsers: (users) => set({ users }),
    
     createUser: async (newUser) => {
-        if(!newUser.username || !newUser.password) {
-            return { success: false, message: "Please provide a username and password" };
+        if(!newUser.username || !newUser.password || !newUser.email) {
+            return { success: false, message: "Please provide a username, password and email" };
         }
         const res = await fetch("http://localhost:8000/api/users", {
         // const res = await fetch("http://192.168.1.119:8000/api/users", {
