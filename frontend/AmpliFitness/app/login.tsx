@@ -53,6 +53,9 @@ export default function LoginScreen() {
      
       <Link href="/signup" style={styles.button}>Sign Up</Link>
 
+      <Link href="/forgotPassword" style={styles.button}>Forgot Password</Link>
+     
+
       {/* <Link href="/(tabs)/home" style={styles.button}>
        Home
         </Link> */}
