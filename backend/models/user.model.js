@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    specialities: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Speciality"
+    }],
 }, {
     timestamps: true
 });

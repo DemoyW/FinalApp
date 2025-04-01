@@ -94,4 +94,15 @@ try {
     res.status(500).json({ success: false, message: "Server error" });
 }
 }
+
+export const getTrainers = async (req, res) => {
+    try {
+        const trainers = await User.find({ isTrainer: true });
+
+        res.status(200).json({ success: true, data: trainers });
+    } catch (error) {
+        console.error("Error in fetching trainers", error.message);
+        res.status(500).json({ success: false, message: "Server error" });
+    } 
+}
         

@@ -12,13 +12,13 @@ interface Item {
 
 export default function TrainersScreen() {
     const [trainers, setTrainers] = useState<Item[]>([]);
-    const { getAllUsers } = useUserStore();
+    const { getTrainers } = useUserStore();
 
     const fetchUsers = async () => {
         try {
-            const allUsers = await getAllUsers();
-            console.log("allUsers", allUsers);
-            setTrainers(allUsers.message.data);
+            const allTrainers = await getTrainers();
+            console.log("allTrainers", allTrainers);
+            setTrainers(allTrainers.message.data);
             console.log("Trainers", trainers);
         } catch (error) {
             console.log(error);
