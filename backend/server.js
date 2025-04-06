@@ -12,7 +12,10 @@ import workoutRoutes from "./routes/workout.route.js";
 import workoutExerciseRoutes from "./routes/workoutExercise.route.js";
 import messageRoutes from "./routes/message.route.js"
 import analyticsRoutes from "./routes/analytics.route.js"
-import { SocketAddress } from "net";
+import specialityRoutes from "./routes/speciality.route.js";
+import nodeMailer from "nodemailer";
+
+
 
 dotenv.config();
 
@@ -33,6 +36,7 @@ app.use("/api", workoutRoutes);
 app.use("/api", workoutExerciseRoutes);
 app.use("/api", messageRoutes)
 app.use("/api", analyticsRoutes)
+app.use("/api", specialityRoutes)
 
 let users = {};
 
@@ -70,10 +74,14 @@ io.on("connection", (socket) => {
 });
 
 
-server.listen(PORT, () => {
-    connectDB();
-    console.log("Server is running on http://localhost" + PORT);
-});
+
+
+    server.listen(PORT, () => {
+        connectDB();
+        console.log("Server is running on http://localhost" + PORT);
+    });
+
+
 
 
 // E1StHa52vjDGofWV

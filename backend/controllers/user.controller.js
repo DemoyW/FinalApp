@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import nodeMailer from "nodemailer";
 
 export const getUsers = async (req, res) => {
     try {
@@ -105,4 +106,53 @@ export const getTrainers = async (req, res) => {
         res.status(500).json({ success: false, message: "Server error" });
     } 
 }
-        
+
+export const checkEmail = async (req, res) => {
+        const {email} = req.body;
+
+        try {
+            const user = await User.findOne({ email: email });
+            if(!user) {
+                return res.status(404).json({ success: false, message: "Email not found" });
+            }
+            res.status(200).json({ success: true, message: "Email found" });
+        }
+        catch (error) {
+            console.error("Error in checking email", error.message);
+            res.status(500).json({ success: false, message: "Server error" });
+        }
+}
+       
+
+export const recoverPasswrod = async (req, res) => {
+    const { email } = req.body;
+
+
+    const html = `
+    <h1>Recover Password</h1>
+    <p>We are glad to have you here. </p>
+    `
+
+    const transporter = nodeMailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        auth: {
+            user: process.env.EMAIL,
+            pass: process.env.EMAIL_PASSWORD
+        }
+    })
+
+    transporter.sendMail({  
+        to: email,
+        subject: 'Password Recovery',
+        html: html
+    }).then(() => {
+        console.log("Email sent successfully")
+    }).catch((error) => {
+        console.log("Error sending email", error)
+    })
+
+
+
+}

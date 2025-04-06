@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useUserStore } from '../store/user';
 import { Link } from 'expo-router';
 
-const SignupScreen = () => {
+export default function SignupScreen()  {
     const [newUser, setNewUser] = useState({
         username: '',
         email: '',
@@ -99,4 +99,3 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SignupScreen;

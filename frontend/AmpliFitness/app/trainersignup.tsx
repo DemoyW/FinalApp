@@ -1,15 +1,30 @@
-import React, {useState} from "react";
+import React, {useEffect, useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 import { useUserStore } from "@/store/user";
 import { Link } from "expo-router";
+import { useSpecialityStore } from "@/store/speciality";
+import DropDownPicker from "react-native-dropdown-picker";
 
-const TrainerSignupScreen = () => {
+
+interface Speciality {
+    _id: string;
+    name: string;
+    description: string;
+}
+
+export default function TrainerSignupScreen()  {
     const [newTrainer, setNewTrainer] = useState({
         username: '',
         email: '',
         password: '',
         isTrainer: true,
+        specialities: [],   
     });
+
+    const [selectedSpecialities, setSelectedSpecialities] = useState<string[]>([]);
+    const [open, setOpen] = useState(false);
+    const [specialities, setSpecialities] = useState<Speciality[]>([]);
+    const { getSpecialities } = useSpecialityStore();
 
     const {createUser} = useUserStore()
     const handleSignup = async() => {
@@ -31,6 +46,37 @@ const TrainerSignupScreen = () => {
     }
     };
 
+    const fetchSpecialities = async () => {
+        try {
+            const allSpecialities = await getSpecialities();
+            console.log("allSpecialities", allSpecialities);
+            setSpecialities(allSpecialities.message.data);
+            console.log("Specialities", specialities);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        fetchSpecialities();
+    }, []);
+
+
+    const viewSpecialities = () => {    
+        console.log("Specialities", specialities);
+    }
+
+
+    const items = specialities.map((speciality) => ({
+        label: speciality.name,
+        value: speciality._id,
+    }));
+
+    const getSelectedSpecialities = ()  => {
+        const labels = items.filter(item => selectedSpecialities.includes(item.value)).map(item => item.label);
+        return labels.join(', ');
+    }
+
 
     return (
         <View style={styles.container}>
@@ -47,7 +93,7 @@ const TrainerSignupScreen = () => {
                 placeholder="Email"
                 value={newTrainer.email}
                 onChangeText={(email) => setNewTrainer({ ...newTrainer, email })}
-            />c 
+            />
             <TextInput
                 style={styles.input}
                 placeholder="Password"
@@ -55,13 +101,28 @@ const TrainerSignupScreen = () => {
                 onChangeText={(password) => setNewTrainer({ ...newTrainer, password })}
                 secureTextEntry={true}
             />
-            <TextInput
+            <DropDownPicker
                 style={styles.input}
-                placeholder="Specialities"
+                multiple={true}
+                multipleText={getSelectedSpecialities()}
+                open={open}
+                setOpen={setOpen}
+                value={selectedSpecialities}
+                setValue={setSelectedSpecialities}
+                items={items}
+                min={0}
+                max={5}
+                placeholder="Select Specialities"
+                onChangeValue={(item) => {
+                    console.log('Selected item:', item);
+                }}
             />
+          
             <Button title="Sign Up" onPress={handleSignup} />
             <Link href="/signup" style={styles.button}>Not a trainer? Sign up here</Link>
             <Link href="/login" style={styles.button}>Log In</Link>
+
+            <Button title="View Specialities" onPress={viewSpecialities} />
 
         </View>
     );
@@ -95,6 +156,4 @@ const styles = StyleSheet.create({
     },
 });
 
-
-export default TrainerSignupScreen;
 
