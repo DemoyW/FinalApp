@@ -17,6 +17,6 @@ router.get("/users/:id", getUserById);
 
 router.get("/trainers", getTrainers);
 
-router.post("/checkEmail", checkEmail);
+router.post("/users/checkEmail", checkEmail);
 
 export default router;

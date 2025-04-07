@@ -93,6 +93,21 @@ export const useUserStore = create((set) => ({
         const data = await res.json();
         // console.log(data);
         return {success: true, message: data};
+    }, 
+    checkEmail: async (userEmail) => {
+        if(!userEmail) {
+            return { success: false, message: "Please provide an email" };
+        }
+        const res = await fetch("http://localhost:8000/api/users/checkEmail     ", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({email: userEmail}),
+        })
+        const data = await res.json();
+        // console.log(data);
+        return {success: true, message: data};
     }
 }));
 

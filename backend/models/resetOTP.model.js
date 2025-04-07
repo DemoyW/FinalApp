@@ -1,0 +1,20 @@
+import mongoose from 'mongoose';
+
+const resetOTPSchema = new mongoose.Schema({
+    email  : {
+        type: String,
+        required: true,
+    },
+    otp: {
+        type: String,
+        required: true,
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+        expires: '5m', // OTP expires in 5 minutes
+    },
+});
+const ResetOTP = mongoose.model('ResetOTP', resetOTPSchema);
+
+export default ResetOTP;

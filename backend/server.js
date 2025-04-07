@@ -13,6 +13,7 @@ import workoutExerciseRoutes from "./routes/workoutExercise.route.js";
 import messageRoutes from "./routes/message.route.js"
 import analyticsRoutes from "./routes/analytics.route.js"
 import specialityRoutes from "./routes/speciality.route.js";
+import OTPRoutes from "./routes/resetOTP.route.js"
 import nodeMailer from "nodemailer";
 
 
@@ -37,6 +38,7 @@ app.use("/api", workoutExerciseRoutes);
 app.use("/api", messageRoutes)
 app.use("/api", analyticsRoutes)
 app.use("/api", specialityRoutes)
+app.use("/api", OTPRoutes)
 
 let users = {};
 
