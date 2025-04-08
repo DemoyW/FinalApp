@@ -1,8 +1,22 @@
 import {Text, TextInput, Button, View, Alert} from 'react-native';
 import {Link, useRouter} from 'expo-router';
+import { RouteProp, useRoute } from "@react-navigation/native";
+import { useNavigation } from '@react-navigation/native';
+import { useUserStore } from '@/store/user';
+import { useState } from 'react';
+
+type ChatRouteProps = RouteProp<{ params: { email: string } }, 'params'>;
+
 
 
 export default function ResetPasswordScreen() {
+    const route = useRoute<ChatRouteProps>();
+    const { email } = route.params;
+    
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+
+    
     return (
         <View>
             <Text style={{fontSize: 24, marginBottom: 20}}>Reset Password</Text>

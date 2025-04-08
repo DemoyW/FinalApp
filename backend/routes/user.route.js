@@ -19,4 +19,6 @@ router.get("/trainers", getTrainers);
 
 router.post("/users/checkEmail", checkEmail);
 
+// router.post("/users/recoverPassword", recoverPasswrod);
+
 export default router;

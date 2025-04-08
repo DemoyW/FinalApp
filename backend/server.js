@@ -85,5 +85,31 @@ io.on("connection", (socket) => {
 
 
 
+    // const html = `
+    // <h1>Recover Password</h1>
+    // <p>We are glad to have you here. </p>
+    // `
+
+    // const transporter = nodeMailer.createTransport({
+    //     host: 'smtp.gmail.com',
+    //     port: 465,
+    //     secure: true,
+    //     auth: {
+    //         user: process.env.EMAIL,
+    //         pass: process.env.EMAIL_PASSWORD
+    //     }
+    // })
+
+    // transporter.sendMail({  
+    //     to: "demoywitter@gmail.com",
+    //     subject: 'Password Recovery',
+    //     html: html
+    // }).then(() => {
+    //     console.log("Email sent successfully")
+    // }).catch((error) => {
+    //     console.log("Error sending email", error)
+    // })
+
+
 
 // E1StHa52vjDGofWV

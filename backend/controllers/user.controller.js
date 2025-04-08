@@ -1,5 +1,8 @@
 import User from "../models/user.model.js";
+import dotenv from "dotenv";
 import nodeMailer from "nodemailer";
+
+dotenv.config();
 
 export const getUsers = async (req, res) => {
     try {
@@ -122,37 +125,30 @@ export const checkEmail = async (req, res) => {
             res.status(500).json({ success: false, message: "Server error" });
         }
 }
+
+export const resetPassword = async (req, res) => {
+    const { email, newPassword } = req.body;
+
+    if (!email || !newPassword) {
+        return res.status(400).json({ success: false, message: "Please provide email and new password" });
+    }
+
+    try {
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+        user.password = newPassword; // Update the password
+        await user.save(); // Save the updated user
+
+
+        res.status(200).json({ success: true, message: "Password updated successfully" });   
+    
+    } catch (error) {
+        console.error("Error in resetting password", error.message);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+}
        
 
-export const recoverPasswrod = async (req, res) => {
-    const { email } = req.body;
-
-
-    const html = `
-    <h1>Recover Password</h1>
-    <p>We are glad to have you here. </p>
-    `
-
-    const transporter = nodeMailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true,
-        auth: {
-            user: process.env.EMAIL,
-            pass: process.env.EMAIL_PASSWORD
-        }
-    })
-
-    transporter.sendMail({  
-        to: email,
-        subject: 'Password Recovery',
-        html: html
-    }).then(() => {
-        console.log("Email sent successfully")
-    }).catch((error) => {
-        console.log("Error sending email", error)
-    })
-
-
-
-}
