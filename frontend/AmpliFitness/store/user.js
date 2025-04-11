@@ -108,7 +108,22 @@ export const useUserStore = create((set) => ({
         const data = await res.json();
         // console.log(data);
         return {success: true, message: data};
-    }
+    },
+    resetPassword: async (userEmail, updatedPassword) => {
+        if(!userEmail || !updatedPassword) {
+            return { success: false, message: "Please provide an email and new password" };
+        }
+        const res = await fetch("http://localhost:8000/api/users/resetPassword", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({email: userEmail, newPassword: updatedPassword}),
+        })
+        const data = await res.json();
+        // console.log(data);
+        return {success: true, message: data};
+    },
 }));
 
 

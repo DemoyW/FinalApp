@@ -1,8 +1,10 @@
 import User from "../models/user.model.js";
 import dotenv from "dotenv";
-import nodeMailer from "nodemailer";
+import bcrypt from "bcrypt";
 
 dotenv.config();
+const saltRounds = parseInt(process.env.SALT_ROUNDS) || 10; // Default to 10 if not set in .env
+
 
 export const getUsers = async (req, res) => {
     try {
@@ -21,6 +23,7 @@ export const createUser = async (req, res) => {
     if(!user.username || !user.password) {
         return res.status(400).json({ success:false, message: "Please provide a username and password" });
     }
+    user.password = await hashPassword(user.password); // Hash the password before saving
 
     const newUser = new User(user)
 
@@ -37,9 +40,15 @@ export const loginUser = async (req, res) => {
     const user = req.body;
 
     try {
-        const foundUser = await User.findOne({ username: user.username, password: user.password });
+        const foundUser = await User.findOne({ username: user.username });
 
         if(!foundUser) {
+            return res.status(400).json({ success: false, message: "Invalid username or password" });
+        }
+
+        //checking hashed password
+        const isMatch = await comparePassword(user.password, foundUser.password);
+        if(!isMatch) {
             return res.status(400).json({ success: false, message: "Invalid username or password" });
         }
 
@@ -139,7 +148,8 @@ export const resetPassword = async (req, res) => {
         if (!user) {
             return res.status(404).json({ success: false, message: "User not found" });
         }
-        user.password = newPassword; // Update the password
+        const newHashedPassword = await hashPassword(newPassword); // Hash the new password
+        user.password = newHashedPassword; // Update the password
         await user.save(); // Save the updated user
 
 
@@ -150,5 +160,55 @@ export const resetPassword = async (req, res) => {
         res.status(500).json({ success: false, message: "Server error" });
     }
 }
+
+export const chagnePassword = async (req, res) => {
+    const { id, newPassword, oldPassword } = req.params;
+
+    if (!id || !newPassword || !oldPassword) {
+        return res.status(400).json({ success: false, message: "Please provide id, old password and new password" });
+    }
+
+    try {
+        const user = await User.findById(id);
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        // Check if the old password matches
+        const isMatch = await comparePassword(oldPassword, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ success: false, message: "Old password is incorrect" });
+        }
+
+        const newHashedPassword = await hashPassword(newPassword); // Hash the new password
+        user.password = newHashedPassword; // Update the password
+        await user.save(); // Save the updated user
+
+        res.status(200).json({ success: true, message: "Password updated successfully" });   
+    
+    }
+    catch (error) {
+        console.error("Error in changing password", error.message);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+}
        
 
+async function hashPassword(password) {
+    try {
+        return await bcrypt.hash(password, saltRounds);
+    } catch (error) {
+        console.error("Error hashing password", error.message);
+        throw new Error("Error hashing password");
+    }
+}
+
+async function comparePassword(password, hashedPassword) {
+    try {
+        return await bcrypt.compare(password, hashedPassword);
+    } catch (error) {
+        console.error("Error comparing password", error.message);
+        throw new Error("Error comparing password");
+    }
+}

@@ -1,5 +1,5 @@
 import express from "express";
-import { createUser, deleteUser, getUsers, updateUser, loginUser, getUserById, getTrainers, checkEmail } from "../controllers/user.controller.js";
+import { createUser, deleteUser, getUsers, updateUser, loginUser, getUserById, getTrainers, checkEmail, resetPassword } from "../controllers/user.controller.js";
 
 const router = express.Router();
 
@@ -18,6 +18,8 @@ router.get("/users/:id", getUserById);
 router.get("/trainers", getTrainers);
 
 router.post("/users/checkEmail", checkEmail);
+
+router.post("/users/resetPassword", resetPassword);
 
 // router.post("/users/recoverPassword", recoverPasswrod);
 
