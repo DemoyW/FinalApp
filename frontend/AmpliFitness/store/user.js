@@ -1,5 +1,6 @@
 import {create} from "zustand";
 
+
 export const useUserStore = create((set) => ({
     userId: null,
     users: [],
@@ -124,6 +125,37 @@ export const useUserStore = create((set) => ({
         // console.log(data);
         return {success: true, message: data};
     },
+    changePassword: async (userId, oldPassword, newPassword) => {
+        if(!userId || !oldPassword || !newPassword) {
+            return { success: false, message: "Please provide an id, old password and new password" };
+        }
+        const res = await fetch("http://localhost:8000/api/users/changePassword", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({id: userId, oldPassword: oldPassword, newPassword: newPassword}),
+        })
+        const data = await res.json();
+        // console.log(data);
+        return {success: true, message: data};
+    },
+    changeUserDetails: async (userId, newEmail, newUsername) => {
+        if(!userId || !newEmail || !newUsername) {
+            return { success: false, message: "Please provide an id, new email and new username" };
+        }
+        const res = await fetch("http://localhost:8000/api/users/changeDetails", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({id: userId, email: newEmail, username: newUsername}),
+        })
+        const data = await res.json();
+        // console.log(data);
+        return {success: true, message: data};
+    }
+        
 }));
 
 

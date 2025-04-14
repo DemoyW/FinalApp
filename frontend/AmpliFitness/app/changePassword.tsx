@@ -5,25 +5,28 @@ import { useUserStore } from "@/store/user";
 import { Link } from "expo-router";
 
 export default function ChangePassword() {
+    const {userId, changePassword} = useUserStore()
     const [newPassword, setNewPassword] = useState({
+        id: userId,
         oldPassword: '',
-        updatedPassword: '',
+        newPassword: '',
         confirmPassword: '',
     });
 
-    const {changePassword} = useUserStore()
     const handleChangePassword = async() => {
+    if (newPassword.newPassword !== newPassword.confirmPassword) {
+        Alert.alert("Passwords do not match", "Please make sure both passwords are the same.");
+        console.log("Passwords do not match", "Please make sure both passwords are the same.");
+        return;
+    }
     try {
-        const {success, message} = await changePassword(newPassword)
-        // developement messages
-        // console.log("success:", success)
-        // console.log("message:", message)
-        // console.log("Current store state", useUserStore.getState());
-        // console.log("did the above message send?")
+        const {success, message} = await changePassword(newPassword.id, newPassword.oldPassword, newPassword.newPassword)
         if (success) {
             Alert.alert("Password Change Successful", message);
+            console.log("Password Change Successful", message);
         } else {
             Alert.alert("Password Change Failed", message);
+            console.log("Password Change Failed", message);
         }
     } catch (error) {
         console.error("Error during password change:", error);
@@ -37,20 +40,23 @@ export default function ChangePassword() {
             <TextInput
                 style={styles.input}
                 placeholder="Old Password"
+                secureTextEntry
                 value={newPassword.oldPassword}
-                onChangeText={(oldPassword) => setNewPassword({ ...newPassword, oldPassword })}
+                onChangeText={(text) => setNewPassword({...newPassword, oldPassword: text})}
             />
             <TextInput
                 style={styles.input}
                 placeholder="New Password"
-                value={newPassword.updatedPassword}
-                onChangeText={(updatedPassword) => setNewPassword({ ...newPassword, updatedPassword })}
+                secureTextEntry
+                value={newPassword.newPassword}
+                onChangeText={(text) => setNewPassword({...newPassword, newPassword: text})}
             />
             <TextInput
                 style={styles.input}
                 placeholder="Confirm New Password"
+                secureTextEntry
                 value={newPassword.confirmPassword}
-                onChangeText={(confirmPassword) => setNewPassword({ ...newPassword, confirmPassword })}
+                onChangeText={(text) => setNewPassword({...newPassword, confirmPassword: text})}
             />
             <Button title="Change Password" onPress={handleChangePassword} />
         </View>

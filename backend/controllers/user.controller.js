@@ -58,40 +58,40 @@ export const loginUser = async (req, res) => {
         res.status(500).json({ success: false, message: "Server error" });
     }
 }
-export const updateUser =  async (req, res) => { 
-    const { id } = req.params;
-    const user = req.body;
+// export const updateUser =  async (req, res) => { 
+//     const { id } = req.params;
+//     const user = req.body;
 
-    if(!mongoose.Types.ObjectId.isValid(id)) { // Check if the id is a valid ObjectId
-        return res.status(404).json({ success: false, message: "Invalid user id" });
-    }
+//     if(!mongoose.Types.ObjectId.isValid(id)) { // Check if the id is a valid ObjectId
+//         return res.status(404).json({ success: false, message: "Invalid user id" });
+//     }
 
-    try {
-        const updatedUser = await User.findByIdAndUpdate(id, user, { new: true });
-        res.status(200).json({ success: true, data: updatedUser });
-    } catch (error) {
-        console.error("Error in update user", error.message);
-        res.status(500).json({ success: false, message: "Server Error" });
-    }
-};
+//     try {
+//         const updatedUser = await User.findByIdAndUpdate(id, user, { new: true });
+//         res.status(200).json({ success: true, data: updatedUser });
+//     } catch (error) {
+//         console.error("Error in update user", error.message);
+//         res.status(500).json({ success: false, message: "Server Error" });
+//     }
+// };
 
-export const deleteUser =  async (req, res) => {
-    const { id } = req.params;
+// export const deleteUser =  async (req, res) => {
+//     const { id } = req.params;
     
 
-    if(!mongoose.Types.ObjectId.isValid(id)) { // Check if the id is a valid ObjectId
-        return res.status(404).json({ success: false, message: "Invalid user id" });
-    }
-    try {
-        const deletedUser = await User.findByIdAndDelete(id);
+//     if(!mongoose.Types.ObjectId.isValid(id)) { // Check if the id is a valid ObjectId
+//         return res.status(404).json({ success: false, message: "Invalid user id" });
+//     }
+//     try {
+//         const deletedUser = await User.findByIdAndDelete(id);
 
 
-        res.status(200).json({ success: true, message: "User deleted" });
-    } catch (error) {
-        console.error("Error in delete user", error.message);
-        res.status(500).json({ success: false, message: "Server  error" });
-    }
-};
+//         res.status(200).json({ success: true, message: "User deleted" });
+//     } catch (error) {
+//         console.error("Error in delete user", error.message);
+//         res.status(500).json({ success: false, message: "Server  error" });
+//     }
+// };
 
 export const getUserById = async (req, res) => {
 try {
@@ -161,8 +161,8 @@ export const resetPassword = async (req, res) => {
     }
 }
 
-export const chagnePassword = async (req, res) => {
-    const { id, newPassword, oldPassword } = req.params;
+export const changePassword = async (req, res) => {
+    const { id, newPassword, oldPassword } = req.body;
 
     if (!id || !newPassword || !oldPassword) {
         return res.status(400).json({ success: false, message: "Please provide id, old password and new password" });
@@ -190,6 +190,45 @@ export const chagnePassword = async (req, res) => {
     }
     catch (error) {
         console.error("Error in changing password", error.message);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+}
+
+export const changeDetails = async (req, res) => {
+    const { id, email, username } = req.body;
+
+    if (!id || !email || !username) {
+        return res.status(400).json({ success: false, message: "Please provide id, email and username" });
+    }
+
+    try {
+        const user = await User.findById(id);
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        // Check if email is already in use by another user
+        const emailInUse = await User.findOne({ email, _id: { $ne: id } });
+        if (emailInUse) {
+            return res.status(400).json({ success: false, message: "Email is already in use" });
+        }
+
+        // Check if username is already in use by another user
+        const usernameInUse = await User.findOne({ username, _id: { $ne: id } });
+        if (usernameInUse) {
+            return res.status(400).json({ success: false, message: "Username is already in use" });
+        }
+
+        user.email = email; // Update the email
+        user.username = username; // Update the username
+        await user.save(); // Save the updated user
+
+        res.status(200).json({ success: true, message: "User details updated successfully" });   
+    
+    }
+    catch (error) {
+        console.error("Error in changing details", error.message);
         res.status(500).json({ success: false, message: "Server error" });
     }
 }
