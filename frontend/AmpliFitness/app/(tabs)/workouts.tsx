@@ -7,6 +7,7 @@ import {  useNavigation } from '@react-navigation/native';
 
 import { useTemplateStore } from '../../store/templates';
 import { useExerciseStore } from '../../store/exercise';
+import { useUserStore } from '../../store/user';
 
 type RootStackParamList = {
     Workouts: undefined;
@@ -24,8 +25,14 @@ interface WorkoutsScreenProps {
 interface Item {
     _id: string;
     name: string;
-    exercises: exercise[];
+    exercises: exercises[];
     user: string;
+}
+
+interface exercises {
+    _id: string;
+    exercise: exercise;
+    sets: set[];
 }
 
 interface exercise {
@@ -34,22 +41,29 @@ interface exercise {
     description: string;
 }
 
+interface set {
+    _id: string;
+    setNumber: number;
+    reps: number;
+    weight: number;
+}
+
 export default function WorkoutsScreen() { 
     const router = useRouter();
     const navigation = useNavigation<WorkoutsScreenNavigationProp>();
 
 
-
+    const { userId } = useUserStore();
 
 
 
     const [createWorkoutTemplate, setCreateWorkoutTemplate] = useState({
         name: '',
         exercises: [] as exercise[],
-        user: '67944877fee0664a3453332f',
+        user: userId,
     });
     const [workoutTemplates, setWorkoutsTemplates] = useState<Item[]>([]);
-    const { getAllTemplates, createTemplate } = useTemplateStore();
+    const { getAllTemplatesById, createTemplate, getAllTemplates } = useTemplateStore();
 
     const [exercises, setExercises] = useState<exercise[]>([]);
     const [selectedExercises, setSelectedExercises] = useState<exercise[]>([]);
@@ -57,7 +71,7 @@ export default function WorkoutsScreen() {
     
     const fetchTemplates = async () => {
         try {
-            const allTemplates = await getAllTemplates();
+            const allTemplates = await getAllTemplatesById(userId);
             console.log("All workouts test", allTemplates.message.data);
             setWorkoutsTemplates(allTemplates.message.data);
             console.log("This is the workout templates in the frontend", workoutTemplates);
@@ -147,11 +161,11 @@ export default function WorkoutsScreen() {
                     {/* nested flatlist */}
                     <FlatList
                         data={item.exercises}
-                        keyExtractor={(exercise) => exercise._id}
-                        renderItem={({ item: exercise }) => <View>
-                            <Text style={styles.text}>{exercise.name}</Text>
-                            <Text style={styles.text}>{exercise.description}</Text>
-                            {/* <Text style={styles.text}>{exercise._id}</Text> */}
+                        keyExtractor={(exercises) => exercises._id}
+                        renderItem={({ item: exercises }) => <View>
+                            {/* <Text style={styles.text}>{exercises.exercise.name}</Text> */}
+                            {/* <Text style={styles.text}>{exercises.exercise.description}</Text> */}
+                            <Text style={styles.text}>{exercises._id}</Text>
 
                         </View>}
                     

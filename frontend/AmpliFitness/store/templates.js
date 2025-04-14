@@ -74,5 +74,17 @@ export const useTemplateStore = create((set) => ({
         const data = await res.json();
         console.log(data);
         return {success: true, message: data};
+    },
+
+    getAllTemplatesById: async (id) => {
+        const res = await fetch(`http://localhost:8000/api/workout-templates/user/${id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+        const data = await res.json();
+        console.log(data);
+        return {success: true, message: data};
     }
 }));

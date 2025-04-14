@@ -44,3 +44,18 @@ export const getWorkoutTemplateById = async (req, res) => {
         res.status(500).json({ success: false, message: "Server error" });
     }
 }
+
+export const getAllTemplatesById = async (req, res) => {
+    try {
+        const workoutTemplates = await WorkoutTemplate.find({ user: req.params.id }).populate("exercises.exercise");
+
+        if(!workoutTemplates) {
+            return res.status(404).json({ success: false, message: "Workout templates not found" });
+        }
+
+        res.status(200).json({ success: true, data: workoutTemplates });
+    } catch (error) {
+        console.error("Error in fetching workout templates", error.message);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+}
