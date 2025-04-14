@@ -5,7 +5,9 @@ import { useSearchParams } from "expo-router/build/hooks";
 
 import { useTemplateStore } from "@/store/templates";
 import { useExerciseStore } from "@/store/exercise";
+import { useWorkoutStore } from "@/store/workout";
 import { FlatList, GestureHandlerRootView, TextInput } from "react-native-gesture-handler";
+
 
 type LogWorkoutRouteProp = RouteProp<{ params: { templateId: string } }, "params">;
 
@@ -44,10 +46,11 @@ export default function LogWorkoutScreen() {
     const route = useRoute<LogWorkoutRouteProp>();
     const { templateId } = route.params;
 
-    const [template, setTemplate] = useState<Item | null>(null);
+    const [template, setTemplate] = useState<Item>();
 
     const { getTemplate } = useTemplateStore();
     const { getExercises } = useExerciseStore();
+    const {createWorkout} = useWorkoutStore();
 
     useEffect(() => {
         const fetchTemplate = async () => {
@@ -86,7 +89,9 @@ export default function LogWorkoutScreen() {
                         if (index === setIndex) {
                             console.log("Field", field);
                             console.log("Value", value);
-                            return { ...set, [field]: parseInt(value) };
+                            return { 
+                                ...set, 
+                                [field]: isNaN(parseInt(value)) ? 0 : parseInt(value)};
                         }
                         console.log("Set", set);
                         return set;
@@ -102,6 +107,55 @@ export default function LogWorkoutScreen() {
         });
     };
 
+
+    const handleAddSet = (exerciseId: string) => {
+        setTemplate((prevTemplate) => {
+            if (!prevTemplate) return prevTemplate;
+
+          const updatedExercises = prevTemplate.exercises.map((exercise) => {
+            if (exercise._id === exerciseId) {
+              const newSet: set = {
+                _id: Math.random().toString(), // You can use UUID or temp ID
+                setNumber: exercise.sets.length + 1,
+                reps: 0,
+                weight: 0,
+              };
+              return {
+                ...exercise,
+                sets: [...exercise.sets, newSet],
+              };
+            }
+            return exercise;
+          });
+      
+          return {
+            ...prevTemplate,
+            exercises: updatedExercises,
+          };
+        });
+      };
+
+
+      const handleDeleteSet = (exerciseId: string, setIndex: number) => {
+        setTemplate((prevTemplate) => {
+            if (!prevTemplate) return prevTemplate;
+
+            const updatedExercises = prevTemplate.exercises.map((exercise) => {
+                if (exercise._id === exerciseId) {
+                    const updatedSets = exercise.sets.filter((_, index) => index !== setIndex);
+                    return { ...exercise, sets: updatedSets };
+                }
+                return exercise;
+            });
+            return { ...prevTemplate, exercises: updatedExercises };
+        }
+        );
+    }
+
+
+
+
+
     // Define a function to render each set item
     //
     //
@@ -115,11 +169,19 @@ export default function LogWorkoutScreen() {
                 <TextInput 
                     style={styles.entry} 
                     placeholder={item.reps.toString()} 
-                    // value={item.reps.toString()} 
+                    value={item.reps?.toString() ?? ""} 
                     onChangeText={(value) => handleSetChange(exerciseId, index, "reps", value)}
                     keyboardType="numeric"
                 />
-                <TextInput style={styles.entry} placeholder="Weight" value={item.weight.toString()} />
+                <TextInput 
+                style={styles.entry} 
+                placeholder={item.weight.toString()}
+                value={item.weight?.toString() ?? ""}
+                onChangeText={(value) => handleSetChange(exerciseId, index, "weight", value)}
+                keyboardType="numeric"
+                 />
+
+                 <Button title="Delete Set" onPress={() => handleDeleteSet(exerciseId, index)} />
             </View>
         );
     };
@@ -139,14 +201,42 @@ export default function LogWorkoutScreen() {
                 <FlatList
                     data={item.sets}
                     keyExtractor={(set, index) => index.toString()}
-                    renderItem={({ item, index }) => renderSetItem({ item, index, exerciseId: item._id })}
+                    renderItem={({ item: setItem, index }) =>
+                         renderSetItem({ item: setItem, index, exerciseId: item._id })}
                 />
+                <Button title="Add Set" onPress={() => handleAddSet(item._id)} />
             </View>
         );
     };
 
-    const submitWorkout = () => {
-        console.log("Submit workout");
+    const submitWorkout = async () => {
+        try {
+
+            if (!template) {
+                console.error("No template found to submit.");
+                return;
+            }
+            const cleanedTemplate = {
+                ...template,
+                exercises: template.exercises.map((exercise) => ({
+                    ... exercise,
+                    sets: exercise.sets.map(({ _id, ...set }) => set),
+                })),
+            };
+    
+            console.log("Submitting workout with template:", cleanedTemplate);
+            const { success, message} = await createWorkout(cleanedTemplate);
+            console.log("Workout submission response:", message, "Success:", success);  
+            if (success) {
+                console.log("Workout submitted successfully:", message);
+                // Optionally, navigate to another screen or show a success message
+            } else {
+                console.error("Error submitting workout:", message);
+            }
+        } 
+        catch (error) {
+            console.error("Error submitting workout:", error);
+        }
     }
 
     return (
@@ -155,6 +245,7 @@ export default function LogWorkoutScreen() {
                 <Text style={styles.title}>Log Workout</Text>
                 <Text>Template ID: {templateId}</Text>
                 <Text>Log your workout here</Text>
+                <Text>{template?.name}</Text>
                 <FlatList 
                     data={template?.exercises}
                     keyExtractor={(item) => item._id}
