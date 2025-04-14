@@ -25,20 +25,14 @@ interface WorkoutsScreenProps {
 interface Item {
     _id: string;
     name: string;
-    exercises: exercises[];
+    exercises: exercise[];
     user: string;
-}
-
-interface exercises {
-    _id: string;
-    exercise: exercise;
-    sets: set[];
 }
 
 interface exercise {
     _id: string;
-    name: string;
-    description: string;
+    exercise: workoutExercises;
+    sets: set[];
 }
 
 interface set {
@@ -46,6 +40,12 @@ interface set {
     setNumber: number;
     reps: number;
     weight: number;
+}
+
+interface workoutExercises {
+    _id: string;
+    name: string;
+    description: string;
 }
 
 export default function WorkoutsScreen() { 
@@ -59,14 +59,14 @@ export default function WorkoutsScreen() {
 
     const [createWorkoutTemplate, setCreateWorkoutTemplate] = useState({
         name: '',
-        exercises: [] as exercise[],
+        exercises: [] as workoutExercises[],
         user: userId,
     });
     const [workoutTemplates, setWorkoutsTemplates] = useState<Item[]>([]);
     const { getAllTemplatesById, createTemplate, getAllTemplates } = useTemplateStore();
 
-    const [exercises, setExercises] = useState<exercise[]>([]);
-    const [selectedExercises, setSelectedExercises] = useState<exercise[]>([]);
+    const [exercises, setExercises] = useState<workoutExercises[]>([]);
+    const [selectedExercises, setSelectedExercises] = useState<workoutExercises[]>([]);
     const { getExercises } = useExerciseStore();
     
     const fetchTemplates = async () => {
@@ -100,22 +100,34 @@ export default function WorkoutsScreen() {
     }, []);
   
 
-    const handleAddExercise = (exercise: exercise) => {
+    const handleAddExercise = (exercise: workoutExercises) => {
         setSelectedExercises([...selectedExercises, exercise]);
     }
 
-    const handleRemoveExercise = (exercise: exercise) => {
+    const handleRemoveExercise = (exercise: workoutExercises) => {
         setSelectedExercises(selectedExercises.filter((selectedExercise) => selectedExercise._id !== exercise._id));
     }
 
     const handleCreateWorkout = async () => {
         try {
-            setCreateWorkoutTemplate({...createWorkoutTemplate, exercises: selectedExercises});
-            console.log("Create workout template", createWorkoutTemplate);
-            const { success, message } = await createTemplate(createWorkoutTemplate);
+            console.log("Selected exercises", selectedExercises);
+
+            const formattedExercises = selectedExercises.map((exercise) => ({
+                exercise: exercise,
+            }));
+
+            const newWorkoutTemplate = {
+                ...createWorkoutTemplate,
+                exercises: formattedExercises,
+            };
+            console.log("Create workout template", newWorkoutTemplate);
+            const { success, message } = await createTemplate(newWorkoutTemplate);
             if (success) {
                 console.log("Workout created successfully");
                 fetchTemplates();
+                setSelectedExercises([]);
+                setCreateWorkoutTemplate({ name: '', exercises: [], user: userId });
+                setModalVisible(false);
                 // setWorkoutsTemplates([...workoutTemplates, createWorkoutTemplate]);
             } else {
                 console.error("Error creating workout:", message);
@@ -162,13 +174,11 @@ export default function WorkoutsScreen() {
                     <FlatList
                         data={item.exercises}
                         keyExtractor={(exercises) => exercises._id}
-                        renderItem={({ item: exercises }) => <View>
+                        renderItem={({ item: exercises }) => <View style={styles.exerciseContainer}>
+                            <Text style={styles.text}>{exercises.exercise.name}</Text>
+                            <Text style={styles.text}>{exercises.exercise.description}</Text>
                             {/* <Text style={styles.text}>{exercises.exercise.name}</Text> */}
-                            {/* <Text style={styles.text}>{exercises.exercise.description}</Text> */}
-                            <Text style={styles.text}>{exercises._id}</Text>
-
                         </View>}
-                    
                     /> 
                     <Button title="Start Workout" onPress={() => navigation.navigate("logWorkout", {templateId: item._id})} />
 
@@ -197,7 +207,13 @@ export default function WorkoutsScreen() {
                         
                     </View>
                 ))}
-                
+                <Text>Selected Exercises:</Text>
+                {selectedExercises.map((exercise) => (
+                    <View key={exercise._id}>
+                        <Text style={styles.text}>{exercise.name}</Text>
+                    </View>
+                ))}
+                <Button title="View Selected Exercises" onPress={() => console.log("Selected exercises", selectedExercises)} />
                 
                 <Button title="Create Workout" onPress={handleCreateWorkout} />
                 <Button title="Cancel" onPress={() => setModalVisible(false)} />
@@ -235,5 +251,10 @@ export default function WorkoutsScreen() {
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 16,
-    }
+    },
+    exerciseContainer: {
+        backgroundColor: 'lightgrey',
+        padding: 10,
+        borderRadius: 10,
+        marginVertical: 5,}
     });

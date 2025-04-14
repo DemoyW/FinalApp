@@ -4,7 +4,8 @@ import mongoose from "mongoose";
 const setSchema = new mongoose.Schema({
     setNumber: {
         type: Number,
-        required: true
+        required: true,
+        default: 1
     },
     reps: {
         type: Number,

@@ -19,7 +19,17 @@ export const createWorkoutTemplate = async (req, res) => {
         return res.status(400).json({ success: false, message: "Please provide a name and exercises" });
     }
 
-    const newWorkoutTemplate = new WorkoutTemplate(workoutTemplate);
+    const formattedExercises = workoutTemplate.exercises.map(exercise => ({
+        exercise: exercise.exercise,
+        sets: exercise.sets && exercise.sets.length > 0 
+        ? exercise.sets 
+        : [{ setNumber: 1, reps: 0, weight: 0 }],
+    }));
+
+    const newWorkoutTemplate = new WorkoutTemplate({
+        ...workoutTemplate,
+        exercises: formattedExercises,
+    });
 
     try {
         await newWorkoutTemplate.save();
