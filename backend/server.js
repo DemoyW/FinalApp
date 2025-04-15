@@ -14,7 +14,8 @@ import messageRoutes from "./routes/message.route.js"
 import analyticsRoutes from "./routes/analytics.route.js"
 import specialityRoutes from "./routes/speciality.route.js";
 import OTPRoutes from "./routes/resetOTP.route.js"
-import nodeMailer from "nodemailer";
+import friendRequestRoutes from "./routes/friendRequests.route.js";
+
 
 
 
@@ -39,6 +40,7 @@ app.use("/api", messageRoutes)
 app.use("/api", analyticsRoutes)
 app.use("/api", specialityRoutes)
 app.use("/api", OTPRoutes)
+app.use("/api", friendRequestRoutes)
 
 let users = {};
 
