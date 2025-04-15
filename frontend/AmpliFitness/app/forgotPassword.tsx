@@ -1,3 +1,4 @@
+import React from "react";
 import {Text, View, TextInput, Button, Alert} from "react-native";
 import {Link, useRouter} from "expo-router";
 import { useUserStore } from "@/store/user";
@@ -12,6 +13,7 @@ type RootStackParamList = {
 };
 
 type ForgotPasswordScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ForgotPassword'>;
+
 export const createRandomOTP = async () => {
     try {
         const otp = String(Math.floor(1000 + Math.random() * 9000));

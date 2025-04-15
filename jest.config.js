@@ -1,18 +1,16 @@
 export default {
     preset: 'ts-jest/presets/default-esm',
     testEnvironment: 'node',
-    extensionsToTreatAsEsm: ['.ts'],
-    transform:{
-        '^.+\\.(ts |tsx)$': 'babel-jest'
+    extensionsToTreatAsEsm: ['.ts', '.tsx'],
+    transform: {
+        '^.+\\.(ts|tsx)$': ['ts-jest', { useESM: true }],
+        '^.+\\.(js|jsx)$': ['babel-jest', { presets: ['@babel/preset-env'] }],
     },
-    moduleFileExtensions: ['ts', 'js', 'json', 'node'],
-    // testMatch: ['**/__tests__/**/*.test.(ts|js)'],
-    globals: {
-        'ts-jest': {
-            useESM: true,
-        },
-    },
+    transformIgnorePatterns: [
+        'node_modules/(?!(react-native|expo-router)/)',
+    ],
+    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
     moduleNameMapper: {
         '^(\\.{1,2}/.*)\\.js$': '$1',
-    }
+    },
 };
