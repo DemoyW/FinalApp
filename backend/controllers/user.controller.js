@@ -256,7 +256,7 @@ export const getAllFriends = async (req, res) => {
 }
        
 
-async function hashPassword(password) {
+export async function hashPassword(password) {
     try {
         return await bcrypt.hash(password, saltRounds);
     } catch (error) {
@@ -265,7 +265,7 @@ async function hashPassword(password) {
     }
 }
 
-async function comparePassword(password, hashedPassword) {
+export async function comparePassword(password, hashedPassword) {
     try {
         return await bcrypt.compare(password, hashedPassword);
     } catch (error) {

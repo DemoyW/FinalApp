@@ -12,6 +12,17 @@ type RootStackParamList = {
 };
 
 type ForgotPasswordScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ForgotPassword'>;
+export const createRandomOTP = async () => {
+    try {
+        const otp = String(Math.floor(1000 + Math.random() * 9000));
+        console.log("OTP generated:", otp);
+        return otp;
+
+    } catch (error) {
+        console.error("Error generating OTP:", error);
+        Alert.alert("Error", "An error occurred while generating the OTP. Please try again.");
+    }
+    }
 
 export default function ForgotPasswordScreen() {
     const navigation = useNavigation<ForgotPasswordScreenNavigationProp>();
@@ -46,17 +57,6 @@ export default function ForgotPasswordScreen() {
         }
     };
 
-    const createRandomOTP = async () => {
-        try {
-            const otp = String(Math.floor(1000 + Math.random() * 9000));
-            console.log("OTP generated:", otp);
-            return otp;
-
-        } catch (error) {
-            console.error("Error generating OTP:", error);
-            Alert.alert("Error", "An error occurred while generating the OTP. Please try again.");
-        }
-        }
 
 
     return (
