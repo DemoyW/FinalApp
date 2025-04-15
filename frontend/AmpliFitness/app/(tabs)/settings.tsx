@@ -7,9 +7,7 @@ export default function SettingsScreen() {
       <Text style={styles.text}>Settings</Text>
       <Link href="../changeDetails" style={styles.button}>Change Details</Link>
       <Link href="../changePassword" style={styles.button}>Change Password</Link>
-      <Text style={styles.text}>Change Notification Settings</Text>
-      <Text style={styles.text}>Change Privacy Settings</Text>
-      <Text style={styles.text}>Change Profile Information</Text>
+
     </View>
   );
 } 
