@@ -154,7 +154,21 @@ export const useUserStore = create((set) => ({
         const data = await res.json();
         // console.log(data);
         return {success: true, message: data};
-    }
+    },
+    getFriends: async (userId) => {
+        if(!userId) {
+            return { success: false, message: "Please provide an id" };
+        }
+        const res = await fetch(`http://localhost:8000/api/users/friends/${userId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+        const data = await res.json();
+        // console.log(data);
+        return {success: true, message: data};
+    },
         
 }));
 

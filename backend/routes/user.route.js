@@ -1,5 +1,5 @@
 import express from "express";
-import { createUser, getUsers, loginUser, getUserById, getTrainers, checkEmail, resetPassword, changePassword, changeDetails } from "../controllers/user.controller.js";
+import { createUser, getUsers, loginUser, getUserById, getTrainers, checkEmail, resetPassword, changePassword, changeDetails, getAllFriends } from "../controllers/user.controller.js";
 
 const router = express.Router();
 
@@ -24,6 +24,8 @@ router.post("/users/resetPassword", resetPassword);
 router.post("/users/changePassword", changePassword);
 
 router.post("/users/changeDetails", changeDetails);
+
+router.get("/users/friends/:id", getAllFriends);
 
 // router.post("/users/recoverPassword", recoverPasswrod);
 
