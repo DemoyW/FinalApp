@@ -59,59 +59,106 @@ export default function HistoryScreen() {
   }, []);
 
   return (
-    <GestureHandlerRootView>
-
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
-        <Text style={styles.text}>Your Workout History</Text>
-        <Text style={styles.text}>View your past workouts here</Text>
-        {/* <Button title="Fetch Workout History" onPress={fetchWorkoutHistory} /> */}
-      <FlatList
-        data={AllWorkouts}
-        renderItem={({ item: Workout }) => (
-          <View style={styles.container}>
-            <Text style={styles.text}>{Workout.name}</Text>
-            <Text style={styles.text}>{Workout.date}</Text>
-            <FlatList
-              data={Workout.exercises}
-              renderItem={({ item: exercises }) => (
-                <View>
-                  <Text style={styles.text}>{exercises.exercise.name}</Text>
-                  <FlatList
-                    data={exercises.sets}
-                    renderItem={({ item: set }) => (
-                      <View>
-                        <Text style={styles.text}>Set {set.setNumber}</Text>
-                        <Text style={styles.text}>Reps: {set.reps}</Text>
-                        <Text style={styles.text}>Weight: {set.weight}</Text>
-                        <Text style={styles.text}>_________________________</Text>
-                      </View>
-                    )}
-                    keyExtractor={(item) => item._id}
-                    />
-                </View>
-              )}
-              keyExtractor={(item) => item._id}
-              />
-          </View>
-        )}
-        keyExtractor={(item) => item._id}
-        />
+        <Text style={styles.title}>Your Workout History</Text>
+        <Text style={styles.subtitle}>View your past workouts below</Text>
 
-        </View>
+        <FlatList
+          data={AllWorkouts}
+          keyExtractor={(item) => item._id}
+          contentContainerStyle={{ paddingBottom: 20 }}
+          renderItem={({ item: workout }) => (
+            <View style={styles.workoutCard}>
+              <Text style={styles.workoutName}>{workout.name}</Text>
+              <Text style={styles.workoutDate}>{new Date(workout.date).toLocaleDateString()}</Text>
+
+              {workout.exercises.map((exercise) => (
+                <View key={exercise._id} style={styles.exerciseContainer}>
+                  <Text style={styles.exerciseName}>{exercise.exercise.name}</Text>
+
+                  {exercise.sets.map((set) => (
+                    <View key={set._id} style={styles.setRow}>
+                      <Text style={styles.setText}>Set {set.setNumber}:</Text>
+                      <Text style={styles.setText}>Reps: {set.reps}</Text>
+                      <Text style={styles.setText}>Weight: {set.weight}kg</Text>
+                    </View>
+                  ))}
+                </View>
+              ))}
+            </View>
+          )}
+          ListEmptyComponent={<Text style={styles.empty}>No workout history yet.</Text>}
+        />
+      </View>
     </GestureHandlerRootView>
   );
-
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: "lightblue",
+    paddingHorizontal: 16,
+    paddingTop: 60,
   },
-  text: {
+  title: {
+    fontSize: 26,
+    fontWeight: "bold",
+    color: "#003366",
+    textAlign: "center",
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: "#003366",
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  workoutCard: {
+    backgroundColor: "#ffffff",
+    borderRadius: 10,
+    padding: 16,
+    marginBottom: 16,
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+  },
+  workoutName: {
     fontSize: 20,
     fontWeight: "bold",
+    color: "#1e3d59",
   },
-}); 
+  workoutDate: {
+    fontSize: 14,
+    color: "#555",
+    marginBottom: 10,
+  },
+  exerciseContainer: {
+    marginTop: 10,
+    marginBottom: 5,
+  },
+  exerciseName: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#005792",
+    marginBottom: 4,
+  },
+  setRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
+  setText: {
+    fontSize: 14,
+    color: "#333",
+  },
+  empty: {
+    textAlign: "center",
+    fontSize: 16,
+    color: "#333",
+    marginTop: 40,
+  },
+});

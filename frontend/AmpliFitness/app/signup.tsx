@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, Pressable } from 'react-native';
 import { useUserStore } from '../store/user';
 import { Link } from 'expo-router';
 
@@ -15,11 +15,7 @@ export default function SignupScreen()  {
     const handleSignup = async() => {
     try {
         const {success, message} = await createUser(newUser)
-        // developement messages
-        // console.log("success:", success)
-        // console.log("message:", message)
-        // console.log("Current store state", useUserStore.getState());
-        // console.log("did the above message send?")
+
         if (success) {
             Alert.alert("Signup Successful", message);
         } else {
@@ -33,69 +29,99 @@ export default function SignupScreen()  {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Sign Up</Text>
+            <Text style={styles.title}>Create Your Account</Text>
+           
             <TextInput
                 style={styles.input}
                 placeholder="Username"
                 value={newUser.username}
                 onChangeText={(username) => setNewUser({ ...newUser, username })}
+                placeholderTextColor="grey"
             />
-            {/* <TextInput
-                style={styles.input}
-                placeholder="First Name"
-                // value={newUser.username}
-                // onChangeText={(username) => setNewUser({ ...newUser, username })}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Last Name"
-                // value={newUser.username}
-                // onChangeText={(username) => setNewUser({ ...newUser, username })}
-            /> */}
+
             <TextInput
                 style={styles.input}
                 placeholder="Email"
                 value={newUser.email}
                 onChangeText={(email) => setNewUser({ ...newUser, email })}
+                keyboardType='email-address'
+                autoCapitalize='none'
+                placeholderTextColor="grey"
             />
-            <TextInput
+           
+           <TextInput
                 style={styles.input}
                 placeholder="Password"
                 value={newUser.password}
                 onChangeText={(password) => setNewUser({ ...newUser, password })}
                 secureTextEntry
+                placeholderTextColor="grey"
             />
-            <Button title="Sign Up" onPress={handleSignup} />
-            <Link href="/trainersignup" style={styles.button}>Are you a trainer? Sign up here</Link>
-            <Link href="/login" style={styles.button}>Log In</Link>
+            
+            <Pressable style={styles.signupButton} onPress={handleSignup}>
+                <Text style={styles.signupButtonText}>Sign Up</Text>
+            </Pressable>
+            
+            <Link href="/trainersignup" asChild>
+                <Pressable>
+                    <Text style={styles.link}>Are you a trainer? Sign up here</Text>
+                </Pressable>
+            </Link>
+            
+            <Link href="/login" asChild>
+                <Pressable>
+                    <Text style={styles.link}>Already have an account? Log In</Text>
+                </Pressable>
+            </Link>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 16,
-        backgroundColor : "lightblue",
+      flex: 1,
+      backgroundColor: '#ADD8E6', // light blue
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 20,
     },
     title: {
-        fontSize: 24,
-        marginBottom: 16,
-        textAlign: 'center',
+      fontSize: 26,
+      fontWeight: 'bold',
+      color: '#003366',
+      marginBottom: 24,
     },
     input: {
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        marginBottom: 12,
-        paddingHorizontal: 8,
+      width: '100%',
+      backgroundColor: '#ffffff',
+      borderRadius: 10,
+      paddingVertical: 12,
+      paddingHorizontal: 16,
+      fontSize: 16,
+      marginBottom: 16,
+      borderWidth: 1,
+      borderColor: '#ccc',
+      color: '#000',
     },
-    button: {
-        fontSize: 20,
-        fontWeight: "bold",
-        color: "blue",
+    signupButton: {
+      backgroundColor: '#007ACC',
+      paddingVertical: 14,
+      paddingHorizontal: 32,
+      borderRadius: 10,
+      marginBottom: 20,
+      width: '100%',
+      alignItems: 'center',
     },
-});
-
+    signupButtonText: {
+      color: '#fff',
+      fontSize: 18,
+      fontWeight: 'bold',
+    },
+    link: {
+      color: '#0047AB',
+      fontSize: 16,
+      marginVertical: 6,
+      textDecorationLine: 'underline',
+      textAlign: 'center',
+    },
+  });

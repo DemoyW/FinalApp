@@ -218,6 +218,7 @@ export default function LogWorkoutScreen() {
             }
             const cleanedTemplate = {
                 ...template,
+                _id: undefined, // Remove the _id field if it exists
                 exercises: template.exercises.map((exercise) => ({
                     ... exercise,
                     sets: exercise.sets.map(({ _id, ...set }) => set),

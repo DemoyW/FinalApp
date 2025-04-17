@@ -1,5 +1,5 @@
 import React, {useEffect, useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
+import { View, Text, TextInput, Button, StyleSheet, Alert, Pressable } from "react-native";
 import { useUserStore } from "@/store/user";
 import { Link } from "expo-router";
 import { useSpecialityStore } from "@/store/speciality";
@@ -81,28 +81,41 @@ export default function TrainerSignupScreen()  {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Trainer Sign Up</Text>
+            
+            
             <TextInput
                 style={styles.input}
                 placeholder="Username"
+                placeholderTextColor="grey"
                 value={newTrainer.username}
                 onChangeText={(username) => setNewTrainer({ ...newTrainer, username })}
             />
 
+           
             <TextInput
                 style={styles.input}
                 placeholder="Email"
+                placeholderTextColor="grey"
                 value={newTrainer.email}
                 onChangeText={(email) => setNewTrainer({ ...newTrainer, email })}
+                keyboardType='email-address'
+                autoCapitalize='none'
             />
+           
+           
             <TextInput
                 style={styles.input}
                 placeholder="Password"
+                placeholderTextColor="grey"
                 value={newTrainer.password}
                 onChangeText={(password) => setNewTrainer({ ...newTrainer, password })}
                 secureTextEntry={true}
             />
+           
+           
             <DropDownPicker
-                style={styles.input}
+                style={styles.dropdown}
+                containerStyle={styles.dropdownContainer}
                 multiple={true}
                 multipleText={getSelectedSpecialities()}
                 open={open}
@@ -110,17 +123,27 @@ export default function TrainerSignupScreen()  {
                 value={selectedSpecialities}
                 setValue={setSelectedSpecialities}
                 items={items}
-                min={0}
-                max={5}
                 placeholder="Select Specialities"
-                onChangeValue={(item) => {
-                    console.log('Selected item:', item);
-                }}
+                // listMode="MODAL"
             />
           
-            <Button title="Sign Up" onPress={handleSignup} />
-            <Link href="/signup" style={styles.button}>Not a trainer? Sign up here</Link>
-            <Link href="/login" style={styles.button}>Log In</Link>
+            <Pressable style={styles.signupButton} onPress={handleSignup} >
+                <Text style={styles.signupButtonText}>Sign Up</Text>
+            </Pressable>
+           
+           
+            <Link href="/signup" asChild>
+                <Pressable>
+                    <Text style={styles.link}>Not a trainer? Sign up here</Text>
+                </Pressable>
+            </Link>
+           
+           
+            <Link href="/login" asChild>
+                <Pressable>
+                    <Text style={styles.link}>Already have an account? Log In</Text>
+                </Pressable>
+            </Link>
 
             <Button title="View Specialities" onPress={viewSpecialities} />
 
@@ -131,29 +154,61 @@ export default function TrainerSignupScreen()  {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 16,
-        backgroundColor : "lightblue",
+      flex: 1,
+      backgroundColor: "#ADD8E6",
+      justifyContent: "center",
+      alignItems: "center",
+      padding: 20,
     },
     title: {
-        fontSize: 24,
-        marginBottom: 16,
-        textAlign: 'center',
+      fontSize: 26,
+      fontWeight: "bold",
+      color: "#003366",
+      marginBottom: 24,
+      textAlign: "center",
     },
     input: {
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        marginBottom: 12,
-        paddingHorizontal: 8,
+      width: "100%",
+      backgroundColor: "#fff",
+      borderRadius: 10,
+      paddingVertical: 12,
+      paddingHorizontal: 16,
+      fontSize: 16,
+      marginBottom: 16,
+      borderWidth: 1,
+      borderColor: "#ccc",
+      color: "#000",
     },
-    button: {
-        fontSize: 20,
-        fontWeight: "bold",
-        color: "blue",
+    dropdown: {
+      width: "100%",
+      borderRadius: 10,
+      marginBottom: 16,
+      borderColor: "#ccc",
     },
-});
-
+    dropdownContainer: {
+      borderColor: "#ccc",
+      borderRadius: 10,
+    },
+    signupButton: {
+      backgroundColor: "#007ACC",
+      paddingVertical: 14,
+      paddingHorizontal: 32,
+      borderRadius: 10,
+      marginBottom: 20,
+      width: "100%",
+      alignItems: "center",
+    },
+    signupButtonText: {
+      color: "#fff",
+      fontSize: 18,
+      fontWeight: "bold",
+    },
+    link: {
+      color: "#0047AB",
+      fontSize: 16,
+      marginVertical: 6,
+      textDecorationLine: "underline",
+      textAlign: "center",
+    },
+  });
 

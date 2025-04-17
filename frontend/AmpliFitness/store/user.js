@@ -19,7 +19,7 @@ export const useUserStore = create((set) => ({
             body: JSON.stringify(newUser),
         })
         const data = await res.json();
-        set((state) => ({ users: [...state.users, data.data] }));
+        // set((state) => ({ users: [...state.users, data.data] }));
         console.log(data);
         return { success: true, message: "User created successfully" };
     },
@@ -169,6 +169,10 @@ export const useUserStore = create((set) => ({
         // console.log(data);
         return {success: true, message: data};
     },
+    signOut: () => {
+        set({ userId: null });
+        return { success: true, message: "User logged out successfully" };
+    }
         
 }));
 

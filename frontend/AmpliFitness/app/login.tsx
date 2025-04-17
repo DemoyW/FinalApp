@@ -1,4 +1,4 @@
-import {Text, View, Button, StyleSheet, TextInput, Alert} from "react-native";
+import {Text, View, Button, StyleSheet, TextInput, Alert, Pressable} from "react-native";
 import {Link, useRouter} from "expo-router";
 
 import { useState } from "react";
@@ -33,7 +33,9 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Welcome to AmpliFitness</Text>
+      <Text style={styles.title}>Login</Text>
+      
+      
       <TextInput 
         style={styles.input} 
         placeholder="username" 
@@ -41,6 +43,8 @@ export default function LoginScreen() {
         value={user.username} 
         onChangeText={(username) => setUser({ ...user, username })}
       />
+      
+      
       <TextInput
         style={styles.input} 
         placeholder="Password"
@@ -49,11 +53,24 @@ export default function LoginScreen() {
         onChangeText={(password) => setUser({ ...user, password })}
         secureTextEntry={true} 
       />
-      <Button title="Log In" onPress={handleLogin} />
+      
+      
+      <Pressable style={styles.loginButton} onPress={handleLogin}>
+        <Text style={styles.loginButtonText}>Login</Text>
+      </Pressable>
      
-      <Link href="/signup" style={styles.button}>Sign Up</Link>
+      <Link href="/signup" asChild>
+        <Pressable>
+          <Text style={styles.link}>Don't have an account? Sign Up</Text>
+        </Pressable>
+      </Link>
 
-      <Link href="/forgotPassword" style={styles.button}>Forgot Password</Link>
+      <Link href="/forgotPassword" asChild>
+        <Pressable>
+          <Text style={styles.link}>Forgot Password?</Text>
+        </Pressable>
+      </Link>
+
      
 
       {/* <Link href="/(tabs)/home" style={styles.button}>
@@ -66,26 +83,48 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: "lightblue",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 20,
   },
-  text: {
-    fontSize: 20,
+  title: {
+    fontSize: 28,
     fontWeight: "bold",
+    marginBottom: 32,
+    color: "#003366",
+    textAlign: "center",
   },
   input: {
-    width: 200,
-    height: 40,
-    margin: 12,
+    width: "100%",
+    backgroundColor: "#fff",
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 16,
     borderWidth: 1,
-    padding: 10,
-    color: "black",
-  }, 
-  button: {
-    fontSize: 20,
+    borderColor: "#ccc",
+    color: "#000",
+    fontSize: 16,
+  },
+  loginButton: {
+    backgroundColor: "#007ACC",
+    paddingVertical: 14,
+    paddingHorizontal: 32,
+    borderRadius: 10,
+    marginBottom: 24,
+    width: "100%",
+    alignItems: "center",
+  },
+  loginButtonText: {
+    color: "#fff",
+    fontSize: 18,
     fontWeight: "bold",
-    color: "blue",
-},
+  },
+  link: {
+    color: "#0047AB",
+    fontSize: 16,
+    marginTop: 6,
+    textDecorationLine: "underline",
+    textAlign: "center",
+  },
 });
-

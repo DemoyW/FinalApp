@@ -118,7 +118,10 @@ export default function AnalyticsScreen() {
     };
 
     return (
-        <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView 
+            contentContainerStyle={styles.container}
+            keyboardShouldPersistTaps="handled"
+            >
             <Text style={styles.title}>Analytics</Text>
             <Text>View your progress over time</Text>
 
@@ -174,15 +177,20 @@ export default function AnalyticsScreen() {
                             yAxisLabel=""
                             yAxisSuffix="kg"
                             chartConfig={{
-                                backgroundGradientFrom: "#fff",
-                                backgroundGradientTo: "#fff",
-                                decimalPlaces: 2,
-                                color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                                useShadowColorFromDataset: false,
+                                backgroundGradientFrom: "#f0f8ff",
+                                backgroundGradientTo: "#f0f8ff",
+                                decimalPlaces: 1,
+                                color: (opacity = 1) => `rgba(0, 51, 102, ${opacity})`, // deep blue line
+                                labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
                                 style: {
-                                    borderRadius: 16,
+                                  borderRadius: 16,
                                 },
-                            }}
+                                propsForDots: {
+                                  r: "4",
+                                  strokeWidth: "2",
+                                  stroke: "#003366",
+                                },
+                              }}
                             bezier
                             style={styles.chart}
                         />
@@ -194,33 +202,46 @@ export default function AnalyticsScreen() {
         </ScrollView>
     );
 }
+
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "lightblue",
+      flexGrow: 1,
+      alignItems: 'center',
+      padding: 20,
+      backgroundColor: 'lightblue', // Keep this consistent across all pages
     },
     title: {
-        fontSize: 20,
-        fontWeight: "bold",
-    },
-    chartContainer: {
-        marginBottom: 24,
-    },
-    chartTitle: {
-        fontSize: 20,
-        fontWeight: "bold",
-        marginBottom: 8,
-    },
-    chart: {
-        marginVertical: 8,
-        borderRadius: 16,
+      fontSize: 28,
+      fontWeight: 'bold',
+      color: '#003366',
+      marginBottom: 10,
+      textAlign: 'center',
     },
     dropdown: {
-        width: 200,
-        alignItems: "center",
-        justifyContent: "center",
-        
-    }
-});
+      marginVertical: 20,
+      width: '90%',
+      zIndex: 1000,
+    },
+    chartContainer: {
+      width: '100%',
+      backgroundColor: '#f0f8ff', // light card background
+      borderRadius: 12,
+      padding: 16,
+      marginBottom: 30,
+      shadowColor: '#000',
+      shadowOpacity: 0.1,
+      shadowOffset: { width: 0, height: 2 },
+      shadowRadius: 6,
+      elevation: 3,
+    },
+    chartTitle: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: '#003366',
+      marginBottom: 8,
+      textAlign: 'center',
+    },
+    chart: {
+      borderRadius: 16,
+    },
+  });

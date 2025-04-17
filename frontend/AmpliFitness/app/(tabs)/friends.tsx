@@ -71,46 +71,97 @@ export default function FriendsScreen() {
     }, []);
     
     return (
-        <GestureHandlerRootView>
-
-            <View style={styles.container}>
-            <Text style={styles.text}>Friends</Text>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <View style={styles.container}>
+            <Text style={styles.title}>Your Friends</Text>
+    
             <FlatList
-                data={friends}
-                keyExtractor={(item) => item._id}
-                renderItem={({item}) => (
-                    <View>
-                        <Text style={styles.text}>{item.username}</Text>
-                    </View>
-                    )}
-                />
-
-            <Text style={styles.text}>Friend Requests</Text>
-            <FlatList
-                data={friendRequests}
-                keyExtractor={(item) => item._id}
-                renderItem={({item}) => (
-                    <View>
-                        <Text>{item.sender.username}</Text>
-                        <Button title="Accept" onPress={() => handleAcceptFriendRequest(item._id)} />
-                        <Button title="Reject" onPress={() => handleRejectFriendRequest(item._id)} />
-                    </View>
-                )}
+              data={friends}
+              keyExtractor={(item) => item._id}
+              renderItem={({ item }) => (
+                <View style={styles.friendCard}>
+                  <Text style={styles.friendName}>{item.username}</Text>
+                </View>
+              )}
+              ListEmptyComponent={<Text style={styles.emptyText}>You have no friends yet.</Text>}
             />
-            </View>
+    
+            <Text style={[styles.title, { marginTop: 30 }]}>Friend Requests</Text>
+    
+            <FlatList
+              data={friendRequests}
+              keyExtractor={(item) => item._id}
+              renderItem={({ item }) => (
+                <View style={styles.requestCard}>
+                  <Text style={styles.friendName}>{item.sender.username}</Text>
+                  <View style={styles.requestButtons}>
+                    <View style={styles.button}>
+                      <Button title="Accept" onPress={() => handleAcceptFriendRequest(item._id)} color="#4CAF50" />
+                    </View>
+                    <View style={styles.button}>
+                      <Button title="Reject" onPress={() => handleRejectFriendRequest(item._id)} color="#F44336" />
+                    </View>
+                  </View>
+                </View>
+              )}
+              ListEmptyComponent={<Text style={styles.emptyText}>No pending friend requests.</Text>}
+            />
+          </View>
         </GestureHandlerRootView>
-    );
-}
+      );
+    }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'lightblue',
+      flex: 1,
+      backgroundColor: 'lightblue',
+      paddingHorizontal: 20,
+      paddingTop: 50,
     },
-    text: {
-        fontSize: 20,
-        fontWeight: 'bold',
+    title: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: '#003366',
+      marginBottom: 10,
     },
-});
+    friendCard: {
+      backgroundColor: 'white',
+      padding: 16,
+      borderRadius: 12,
+      marginBottom: 10,
+      elevation: 3,
+      shadowColor: '#000',
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+    },
+    friendName: {
+      fontSize: 18,
+      color: '#003366',
+    },
+    requestCard: {
+      backgroundColor: '#ffffff',
+      padding: 16,
+      borderRadius: 12,
+      marginBottom: 10,
+      elevation: 2,
+      shadowColor: '#000',
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+    },
+    requestButtons: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginTop: 10,
+    },
+    button: {
+      flex: 1,
+      marginHorizontal: 5,
+    },
+    emptyText: {
+      fontSize: 16,
+      color: '#333',
+      marginTop: 10,
+      fontStyle: 'italic',
+      textAlign: 'center',
+    },
+  });

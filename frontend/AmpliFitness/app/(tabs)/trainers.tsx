@@ -30,36 +30,74 @@ export default function TrainersScreen() {
     , []);
 
     return (
-    <GestureHandlerRootView>
-        <View style={styles.container}>
-            <Text style={styles.text} >Trainers</Text>
-            <Text style={styles.text}>Find a trainer to help you reach your fitness goals</Text>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <View style={styles.container}>
+            <Text style={styles.title}>Trainers</Text>
+            <Text style={styles.subtitle}>
+              Find a trainer to help you reach your fitness goals
+            </Text>
+    
             <FlatList
-                data={trainers}
-                keyExtractor={(item) => item._id}
-                renderItem={({ item }) => <View>
-                    <Text style={styles.text}>{item.username}</Text>
-                </View>}
+              data={trainers}
+              keyExtractor={(item) => item._id}
+              contentContainerStyle={styles.listContainer}
+              renderItem={({ item }) => (
+                <View style={styles.card}>
+                  <Text style={styles.trainerName}>{item.username}</Text>
+                  {/* You can add more trainer details later here (speciality, rating, etc.) */}
+                </View>
+              )}
+              ListEmptyComponent={
+                <Text style={styles.emptyText}>No trainers available at the moment.</Text>
+              }
             />
-        </View>
-    </GestureHandlerRootView>
-
-        
-    );
+          </View>
+        </GestureHandlerRootView>
+      );
     }
-
+    
     const styles = StyleSheet.create({
-    container: {
+      container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 16,
-        backgroundColor : "lightblue",
-    },
-
-    text: {
-        fontSize: 20,
+        backgroundColor: 'lightblue',
+        paddingHorizontal: 20,
+        paddingTop: 60,
+      },
+      title: {
+        fontSize: 26,
         fontWeight: 'bold',
-    },
- 
+        color: '#003366',
+        textAlign: 'center',
+        marginBottom: 8,
+      },
+      subtitle: {
+        fontSize: 16,
+        color: '#003366',
+        textAlign: 'center',
+        marginBottom: 20,
+      },
+      listContainer: {
+        paddingBottom: 20,
+      },
+      card: {
+        backgroundColor: 'white',
+        padding: 16,
+        marginVertical: 8,
+        borderRadius: 10,
+        elevation: 3,
+        shadowColor: '#000',
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+      },
+      trainerName: {
+        fontSize: 18,
+        fontWeight: '600',
+        color: '#005792',
+      },
+      emptyText: {
+        textAlign: 'center',
+        fontSize: 16,
+        color: '#333',
+        marginTop: 40,
+      },
     });

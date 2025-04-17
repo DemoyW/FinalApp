@@ -166,35 +166,39 @@ export default function WorkoutsScreen() {
             <FlatList
                 data={workoutTemplates}
                 keyExtractor={(item) => item._id}
-                renderItem={({ item }) => <View>
-                    <Text style={styles.header }>{item.name}</Text>
-                    {/* <Text style={styles.text}>ID: {item._id}</Text> */}
-
-                    {/* nested flatlist */}
+                renderItem={({ item }) => (
+                    <View style={styles.workoutCard}>
+                    <Text style={styles.header}>{item.name}</Text>
                     <FlatList
                         data={item.exercises}
-                        keyExtractor={(exercises) => exercises._id}
-                        renderItem={({ item: exercises }) => <View style={styles.exerciseContainer}>
-                            <Text style={styles.text}>{exercises.exercise.name}</Text>
-                            <Text style={styles.text}>{exercises.exercise.description}</Text>
-                            {/* <Text style={styles.text}>{exercises.exercise.name}</Text> */}
-                        </View>}
-                    /> 
-                    <Button title="Start Workout" onPress={() => navigation.navigate("logWorkout", {templateId: item._id})} />
-
-                    {/* <Text style={styles.text}>_________________________</Text> */}
-                    </View>}
-            />
+                        keyExtractor={(ex) => ex._id}
+                        renderItem={({ item: ex }) => (
+                        <View style={styles.exerciseContainer}>
+                            <Text style={styles.text}>{ex.exercise.name}</Text>
+                            <Text style={styles.text}>{ex.exercise.description}</Text>
+                        </View>
+                        )}
+                    />
+                    <Button
+                        title="Start Workout"
+                        onPress={() => navigation.navigate('logWorkout', { templateId: item._id })}
+                    />
+                    </View>
+                )}
+                />
 
 
 
             <Button title="Add new workout template" onPress={() => setModalVisible(true)} />
+            
+            
             <Modal visible={modalVisible} animationType="slide">
-                <View style={styles.container}>
+                <View style={styles.modalContainer}>
                 <Text style={styles.title}>Create a new workout template </Text>
                 <TextInput 
-                    style={styles.text} 
+                    style={styles.input} 
                     placeholder="Workout Name"
+                    placeholderTextColor={"grey"}
                     value={createWorkoutTemplate.name}
                     onChangeText={(name) => setCreateWorkoutTemplate({...createWorkoutTemplate, name})} />
 
@@ -220,41 +224,69 @@ export default function WorkoutsScreen() {
                 </View>
             </Modal>
         
+           
             </View>
         </GestureHandlerRootView>
     );
     }
     
     const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 16,
-        backgroundColor : "lightblue",
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 16,
-    },
-    text: {
-        fontSize: 20,
-        marginBottom: 16,
-    },
-    button: {
-        fontSize: 20,
-        fontWeight: "bold",
-        color: "blue",
-    },
-    header: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 16,
-    },
-    exerciseContainer: {
-        backgroundColor: 'lightgrey',
-        padding: 10,
-        borderRadius: 10,
-        marginVertical: 5,}
-    });
+        container: {
+          flex: 1,
+          backgroundColor: 'lightblue',
+          paddingHorizontal: 20,
+          paddingTop: 60,
+        },
+        title: {
+          fontSize: 28,
+          fontWeight: 'bold',
+          textAlign: 'center',
+          marginBottom: 12,
+          color: '#003366',
+        },
+        text: {
+          fontSize: 16,
+          marginBottom: 10,
+          color: '#333',
+        },
+        header: {
+          fontSize: 22,
+          fontWeight: 'bold',
+          color: '#005792',
+          marginBottom: 6,
+          marginTop: 10,
+        },
+        workoutCard: {
+          backgroundColor: '#ffffff',
+          padding: 16,
+          borderRadius: 10,
+          marginVertical: 10,
+          shadowColor: '#000',
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 2,
+        },
+        exerciseContainer: {
+          backgroundColor: '#f2f2f2',
+          padding: 10,
+          borderRadius: 8,
+          marginVertical: 4,
+        },
+        modalContainer: {
+          flex: 1,
+          backgroundColor: 'lightblue',
+          paddingHorizontal: 20,
+          paddingTop: 40,
+        },
+        input: {
+          backgroundColor: '#fff',
+          padding: 10,
+          borderRadius: 8,
+          fontSize: 16,
+          marginBottom: 12,
+          color: '#000',
+        },
+        buttonSpacing: {
+          marginTop: 10,
+        },
+      });
