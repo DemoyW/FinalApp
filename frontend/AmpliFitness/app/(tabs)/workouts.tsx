@@ -233,7 +233,7 @@ export default function WorkoutsScreen() {
     const styles = StyleSheet.create({
         container: {
           flex: 1,
-          backgroundColor: 'lightblue',
+          backgroundColor: '#ADD8E6', // light blue
           paddingHorizontal: 20,
           paddingTop: 60,
         },
@@ -242,22 +242,22 @@ export default function WorkoutsScreen() {
           fontWeight: 'bold',
           textAlign: 'center',
           marginBottom: 12,
-          color: '#003366',
+          color: '#003366', // navy blue
         },
         text: {
           fontSize: 16,
           marginBottom: 10,
-          color: '#333',
+          color: '#336699', // secondary text
         },
         header: {
           fontSize: 22,
           fontWeight: 'bold',
-          color: '#005792',
+          color: '#00574D', // link color
           marginBottom: 6,
           marginTop: 10,
         },
         workoutCard: {
-          backgroundColor: '#ffffff',
+          backgroundColor: '#E8F8FF', // card background
           padding: 16,
           borderRadius: 10,
           marginVertical: 10,
@@ -265,26 +265,30 @@ export default function WorkoutsScreen() {
           shadowOpacity: 0.1,
           shadowRadius: 4,
           elevation: 2,
+          borderColor: '#0067AC', // border color
+          borderWidth: 1,
         },
         exerciseContainer: {
-          backgroundColor: '#f2f2f2',
+          backgroundColor: '#D9F1FB', // slightly different blue for contrast
           padding: 10,
           borderRadius: 8,
           marginVertical: 4,
         },
         modalContainer: {
           flex: 1,
-          backgroundColor: 'lightblue',
+          backgroundColor: '#ADD8E6', // light blue
           paddingHorizontal: 20,
           paddingTop: 40,
         },
         input: {
-          backgroundColor: '#fff',
+          backgroundColor: '#FFFFFF', // white input field
           padding: 10,
           borderRadius: 8,
           fontSize: 16,
           marginBottom: 12,
-          color: '#000',
+          color: '#003366', // navy blue text
+          borderColor: '#0067AC', // border
+          borderWidth: 1,
         },
         buttonSpacing: {
           marginTop: 10,

@@ -1,5 +1,5 @@
- import React, {useState, useEffect} from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import React, {useState, useEffect} from "react";
+import { View, Text, StyleSheet, Button, Pressable } from "react-native";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useSearchParams } from "expo-router/build/hooks";
 
@@ -161,27 +161,32 @@ export default function LogWorkoutScreen() {
     //
     const renderSetItem = ({ item, index, exerciseId }: { item: set; index: number; exerciseId: string }) => {
         return (
-            <View style={styles.items}>
-                <Text style={styles.entry}>{index + 1}</Text>
-                {/* <TextInput style={styles.entry} placeholder="reps placeholder" />
-                <TextInput style={styles.entry} placeholder="weight placeholder" /> */}
-                
-                <TextInput 
-                    style={styles.entry} 
-                    placeholder={item.reps.toString()} 
-                    value={item.reps?.toString() ?? ""} 
-                    onChangeText={(value) => handleSetChange(exerciseId, index, "reps", value)}
-                    keyboardType="numeric"
-                />
-                <TextInput 
-                style={styles.entry} 
-                placeholder={item.weight.toString()}
-                value={item.weight?.toString() ?? ""}
-                onChangeText={(value) => handleSetChange(exerciseId, index, "weight", value)}
-                keyboardType="numeric"
-                 />
+            <View >
 
-                 <Button title="Delete Set" onPress={() => handleDeleteSet(exerciseId, index)} />
+                <View style={styles.inputRow}>
+                    <Text style={styles.entry}>{index + 1}</Text>
+                    {/* <TextInput style={styles.entry} placeholder="reps placeholder" />
+                    <TextInput style={styles.entry} placeholder="weight placeholder" /> */}
+                    
+                    <TextInput 
+                        style={styles.entry} 
+                        placeholder={item.reps.toString()} 
+                        value={item.reps?.toString() ?? ""} 
+                        onChangeText={(value) => handleSetChange(exerciseId, index, "reps", value)}
+                        keyboardType="numeric"
+                        />
+                    <TextInput 
+                    style={styles.entry} 
+                    placeholder={item.weight.toString()}
+                    value={item.weight?.toString() ?? ""}
+                    onChangeText={(value) => handleSetChange(exerciseId, index, "weight", value)}
+                    keyboardType="numeric"
+                    />
+
+                    <Pressable style={styles.deleteButton} onPress={() => handleDeleteSet(exerciseId, index)} >
+                        <Text style={styles.deleteButtonText}>Delete Set</Text>
+                    </Pressable>
+                </View>
             </View>
         );
     };
@@ -193,18 +198,23 @@ export default function LogWorkoutScreen() {
         return (
             <View style={styles.setContainer}>
                 <Text style={styles.header}>{item.exercise.name}</Text>
-                <View style={styles.items}>
-                    <Text>Set</Text>
-                    <Text>Reps</Text>
-                    <Text>Weight</Text>
+               
+               <View style={styles.inputRow}>
+                    <Text style={styles.headerText}>Set</Text>
+                    <Text style={styles.headerText}>Reps</Text>
+                    <Text style={styles.headerText}>Weight</Text>
+                    <Text style={styles.headerText}></Text>
                 </View>
+               
                 <FlatList
                     data={item.sets}
                     keyExtractor={(set, index) => index.toString()}
                     renderItem={({ item: setItem, index }) =>
                          renderSetItem({ item: setItem, index, exerciseId: item._id })}
                 />
-                <Button title="Add Set" onPress={() => handleAddSet(item._id)} />
+                <Pressable style={styles.addButton} onPress={() => handleAddSet(item._id)} >
+                    <Text style={styles.addButtonText}>Add Set</Text>
+                </Pressable>
             </View>
         );
     };
@@ -244,16 +254,18 @@ export default function LogWorkoutScreen() {
         <GestureHandlerRootView>
             <View style={styles.container}>
                 <Text style={styles.title}>Log Workout</Text>
-                <Text>Template ID: {templateId}</Text>
-                <Text>Log your workout here</Text>
-                <Text>{template?.name}</Text>
+                {/* <Text>Template ID: {templateId}</Text>
+                <Text>Log your workout here</Text> */}
+                <Text style={styles.templateName}>{template?.name}</Text>
                 <FlatList 
                     data={template?.exercises}
                     keyExtractor={(item) => item._id}
                     renderItem={renderItem}
                 />
-                <Button title="Submit Workout" onPress={submitWorkout} />
-                <Button title="View Template Data" onPress={viewingTemplateData} />
+                <Pressable style={styles.submitButton} onPress={submitWorkout} >
+                    <Text style={styles.submitButtonText}>Submit Workout</Text>
+                </Pressable>
+                {/* <Button title="View Template Data" onPress={viewingTemplateData} />
                 <Text>{template?.name}</Text>
                 <TextInput
                 placeholder="new workout name"
@@ -263,7 +275,7 @@ export default function LogWorkoutScreen() {
                       setTemplate({ ...template, name });
                     }
                   }}
-                />
+                /> */}
             </View>
         </GestureHandlerRootView>
     );
@@ -272,42 +284,118 @@ export default function LogWorkoutScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // justifyContent: "center",
         alignItems: "center",
         padding: 16,
+        backgroundColor: '#ADD8E6', // light blue background
     },
     title: {
         fontSize: 24,
         fontWeight: "bold",
         marginBottom: 16,
+        color: '#003366', // navy blue text
     },
     setContainer: {
-        width: 500,
-        height: 150,
-        backgroundColor: "lightblue",
+        width: "100%",
+        backgroundColor: '#E8F8FF', // card background
         borderRadius: 20,
-        // justifyContent: "center", 
-        // alignItems: "center",
+        padding: 10,
+        borderColor: '#0067AC',
+        borderWidth: 1,
+        marginVertical: 8,
+    },
+    headerRow: {
+        flexDirection: "row",
+        justifyContent: "space-between", // Ensures even distribution of header text
+        marginBottom: 8,
+    },
+    headerText: {
+        fontWeight: "bold",
+        fontSize: 16,
+        color: '#003366', // navy blue text
+        width: "30%", // Make sure each header gets equal space
+        textAlign: "center",  // Center header text
+        flex: 1,
     },
     items: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
         marginVertical: 5,
+        gap: 4, // optional: adds spacing between bubbles
     },
     entry: {
         flex: 1,
         marginHorizontal: 2,
-        padding: 2,
-        backgroundColor: "lightgrey",
+        padding: 8,
+        backgroundColor: '#FFFFFF',
         borderRadius: 30,
         textAlign: "center",
+        borderWidth: 1,
+        borderColor: '#0067AC',
+        color: '#003366', // input text
+        minWidth: 80, // Set a minimum width to make sure they align correctly
     },
     header: {
-        // flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
         marginVertical: 5,
         fontWeight: "bold",
+        fontSize: 18,
+        color: '#00574D', // link color
+        textAlign: "center",
     },
+    templateName: {
+        fontSize: 20,
+        fontWeight: '600',
+        color: '#003366', // primary text (navy blue)
+        marginVertical: 8,
+        textAlign: 'center',
+    },
+    submitButton: {
+        marginTop: 20,
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        backgroundColor: "#007ACC",
+        borderRadius: 10,
+        alignItems: "center",
+    },
+    submitButtonText: {
+        fontSize: 18,
+        fontWeight: "bold",
+        color: "#FFFFFF",
+    },
+    addButton: {
+        marginTop: 10,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        backgroundColor: "#007ACC",
+        borderRadius: 10,
+        alignItems: "center",
+    },
+    addButtonText: {
+        color: "#FFFFFF",
+        fontWeight: "bold",
+    },
+    deleteButton: {
+        marginTop: 10,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        backgroundColor: "#FF6F61",
+        borderRadius: 10,
+        alignItems: "center",
+    },
+    deleteButtonText: {
+        color: "#FFFFFF",
+        fontWeight: "bold",
+    },
+    inputRow: {
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+        alignItems: "center",
+        marginBottom: 8,
+        gap: 4, // optional: adds spacing between bubbles
+    },
+    setRowWrapper: {
+        marginBottom: 10,
+      },
 });

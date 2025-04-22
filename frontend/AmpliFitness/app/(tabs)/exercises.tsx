@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, Pressable } from 'react-native';
 import { Link } from 'expo-router';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -64,24 +64,24 @@ export default function ExercisesScreen() {
     return (
         <GestureHandlerRootView>        
             <View style={styles.container}>
-            <Text style={styles.title}>Exercises</Text>
-            <Text style={styles.text}>View a list of the available exercises below!</Text>
-            <FlatList
-                data={exercises}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                    <View style={styles.exerciseCard}>
-                      <Text style={styles.exerciseName}>{item.name}</Text>
-                      <Text style={styles.text}>{item.description}</Text>
-                    </View>
-                  )}
-            />
-                <View style={styles.buttonContainer}>
-                    <Button
-                        title="Add Exercise"
-                        onPress={() => navigation.navigate("addExercise")}
-                    />
-                </View>
+              <Text style={styles.title}>Exercises</Text>
+              <Text style={styles.text}>View a list of the available exercises below!</Text>
+              <FlatList
+                  data={exercises}
+                  keyExtractor={(item) => item.id}
+                  renderItem={({ item }) => (
+                      <View style={styles.exerciseCard}>
+                        <Text style={styles.exerciseName}>{item.name}</Text>
+                        <Text style={styles.text}>{item.description}</Text>
+                      </View>
+                    )}
+              />
+              
+              <View style={styles.buttonContainer}>
+                  <Pressable style={styles.addButton} onPress={() => navigation.navigate("addExercise")}>   
+                          <Text style={styles.addButtonText}>Add Exercise</Text>
+                  </Pressable>
+              </View>
             </View>
         </GestureHandlerRootView>
     );
@@ -124,5 +124,19 @@ export default function ExercisesScreen() {
         buttonContainer: {
           marginTop: 20,
           alignItems: 'center',
+        },
+        addButton: {
+          marginTop: 20,
+          paddingVertical: 12,
+          paddingHorizontal: 24,
+          backgroundColor: "#007ACC",
+          borderRadius: 10,
+          alignItems: "center",
+        },
+        
+        addButtonText: {
+          color: "#FFFFFF",
+          fontWeight: "bold",
+          fontSize: 16,
         },
       });
