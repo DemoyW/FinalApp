@@ -18,10 +18,6 @@ export const getAllAnalytics = async (req, res) => {
             });
         });
     };
-
-
-        // const datadd = filteredData(analytics);
-
         res.status(200).json({ success: true, data: filteredData(analytics) });
     } catch (error) {
         console.error("Error in fetching analytics", error.message);
@@ -49,9 +45,6 @@ export const getAnalyticsByExerciseId = async (req, res) => {
             });
         });
     };
-
-
-
         res.status(200).json({ success: true, data: filteredData(analytics) });
     } catch (error) {
         console.error("Error in fetching analytics", error.message);

@@ -145,7 +145,7 @@ export default function TrainerSignupScreen()  {
                 </Pressable>
             </Link>
 
-            <Button title="View Specialities" onPress={viewSpecialities} />
+            {/* <Button title="View Specialities" onPress={viewSpecialities} /> */}
 
         </View>
     );
