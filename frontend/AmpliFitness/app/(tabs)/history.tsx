@@ -70,15 +70,7 @@ export default function HistoryScreen() {
     fetchWorkoutHistory();
   }, [clientId, userId]); // Fetch workouts when clientId or userId changes
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     return () => {
-  //       // Cleanup function to reset clientId when the screen is unfocused
-  //       setClientId(null);
-  //     }
-  //   }, [])
-  // );
-
+ 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
@@ -111,7 +103,7 @@ export default function HistoryScreen() {
           )}
           ListEmptyComponent={<Text style={styles.empty}>No workout history yet.</Text>}
         />
-        <Button title="Show Client Id" onPress={showClientId} />
+  
       </View>
     </GestureHandlerRootView>
   );

@@ -197,8 +197,6 @@ export default function AnalyticsScreen() {
                     </View>
                 );
             })}
-            <Button title="View Analytics" onPress={fetchAnalytics} />
-            <Button title="View Grouped Data" onPress={viewGroupedData} />
         </ScrollView>
     );
 }

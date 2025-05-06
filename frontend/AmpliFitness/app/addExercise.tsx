@@ -23,14 +23,14 @@ export default function addExerciseScreen() {
     }
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Add Exercise</Text>
+            <Text style={styles.title}>Add Exercise</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Name"
                 onChangeText={(text) => setNewExercise({...newExercise, name: text})}
             />
             <TextInput
-                style={styles.input}
+                style={[styles.input, styles.multilineInput]}
                 placeholder="Description"
                 onChangeText={(text) => setNewExercise({...newExercise, description: text})}
             />
@@ -41,28 +41,43 @@ export default function addExerciseScreen() {
 
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "lightblue",
-  },
-  text: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  input: {
-    width: 200,
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-    color: "black",
-  }, 
-  button: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "blue",
-},
+    container: {
+        flex: 1,
+        backgroundColor: "lightblue",
+        padding: 20,
+        justifyContent: "center",
+    },
+    title: {
+        fontSize: 28,
+        fontWeight: "bold",
+        textAlign: "center",
+        marginBottom: 30,
+        color: "#003366",
+    },
+    input: {
+        backgroundColor: "#fff",
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: "#ccc",
+        padding: 12,
+        fontSize: 16,
+        marginBottom: 20,
+        color: "#000",
+    },
+    multilineInput: {
+        height: 100,
+        textAlignVertical: "top",
+    },
+    button: {
+        backgroundColor: "#007BFF",
+        paddingVertical: 14,
+        borderRadius: 10,
+        alignItems: "center",
+        marginTop: 10,
+    },
+    buttonText: {
+        color: "#fff",
+        fontSize: 18,
+        fontWeight: "bold",
+    },
 });
-
