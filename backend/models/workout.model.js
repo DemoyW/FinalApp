@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-
 const setSchema = new mongoose.Schema({
     setNumber: {
         type: Number,

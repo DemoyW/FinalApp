@@ -4,6 +4,7 @@ import { useUserStore } from "@/store/user";
 import { Link } from "expo-router";
 import { useSpecialityStore } from "@/store/speciality";
 import DropDownPicker from "react-native-dropdown-picker";
+import { set } from "mongoose";
 
 
 interface Speciality {
@@ -12,8 +13,19 @@ interface Speciality {
     description: string;
 }
 
+interface Trainer {
+    username: string;
+    email: string;
+    password: string;
+    isTrainer: boolean;
+    specialities: string[];   
+}
+
+
+
+
 export default function TrainerSignupScreen()  {
-    const [newTrainer, setNewTrainer] = useState({
+    const [newTrainer, setNewTrainer] = useState<Trainer>({
         username: '',
         email: '',
         password: '',
@@ -60,6 +72,13 @@ export default function TrainerSignupScreen()  {
     useEffect(() => {
         fetchSpecialities();
     }, []);
+
+    useEffect(() => {
+        setNewTrainer((prev) => ({
+            ...prev,
+            specialities: selectedSpecialities,
+        }));
+    }, [selectedSpecialities]);
 
 
     const viewSpecialities = () => {    

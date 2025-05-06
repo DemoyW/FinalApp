@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, TextInput, Button, Alert } from 'react-native';
+import { Text, View, TextInput, Button, Alert, StyleSheet, Pressable } from 'react-native';
 
 import { useUserStore } from '@/store/user';
 
@@ -60,22 +60,76 @@ export default function ChangeDetailsScreen() {
     }
 
     return (
-        <View>
-            <Text style={{ fontSize: 24, marginBottom: 20 }}>Change User Details</Text>
+        <View style={styles.container}>
+            <Text style={styles.title}>Change User Details</Text>
+          
             <TextInput
-                style={{ borderWidth: 1, padding: 10, marginBottom: 20 }}
+                style={styles.input}
                 placeholder="Username"
                 value={userDetails.username}
                 onChangeText={(text) => setUserDetails({ ...userDetails, username: text })}
             />
+           
             <TextInput
-                style={{ borderWidth: 1, padding: 10, marginBottom: 20 }}
+                style={styles.input}
                 placeholder="Email"
                 value={userDetails.email}
                 onChangeText={(text) => setUserDetails({ ...userDetails, email: text })}
             />
-            <Button title="Change Details" onPress={handleChangeDetails} />
-            <Button title="Show User Details" onPress={showUserDetails} />
+         
+            <Pressable style={styles.saveButton} onPress={handleChangeDetails}>
+                <Text style={styles.saveText}>Save Changes</Text>
+            </Pressable>
+           
+           
+           
+           {/* <Button title="Show User Details" onPress={showUserDetails} /> */}
         </View>
     );
 } 
+
+
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: 'lightblue',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingHorizontal: 20,
+    },
+    title: {
+      fontSize: 28,
+      fontWeight: 'bold',
+      color: '#003366',
+      marginBottom: 30,
+    },
+    input: {
+      backgroundColor: 'white',
+      borderRadius: 10,
+      paddingVertical: 14,
+      paddingHorizontal: 16,
+      fontSize: 16,
+      width: '100%',
+      marginBottom: 15,
+      shadowColor: '#000',
+      shadowOpacity: 0.1,
+      shadowOffset: { width: 0, height: 2 },
+      shadowRadius: 4,
+      elevation: 2,
+    },
+    saveButton: {
+      backgroundColor: '#007ACC',
+      paddingVertical: 14,
+      paddingHorizontal: 24,
+      borderRadius: 10,
+      width: '100%',
+      alignItems: 'center',
+      marginTop: 20,
+    },
+    saveText: {
+      color: '#ffffff',
+      fontSize: 18,
+      fontWeight: 'bold',
+    },
+  });

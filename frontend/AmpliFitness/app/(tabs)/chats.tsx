@@ -89,9 +89,9 @@ export default function ChatScreen() {
           style={{ width: '100%' }}
         />
     
-            <Pressable style={styles.debugButton} onPress={viewingUserData}>
+            {/* <Pressable style={styles.debugButton} onPress={viewingUserData}>
               <Text style={styles.debugButtonText}>View Friends (Console)</Text>
-            </Pressable>
+            </Pressable> */}
           </View>
         </GestureHandlerRootView>
       );

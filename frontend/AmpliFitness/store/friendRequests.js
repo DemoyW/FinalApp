@@ -16,13 +16,13 @@ export const useFriendRequestStore = create((set) => ({
         return { success: true, message: data };
     },
 
-    sendFriendRequest: async (senderId, receiverId) => {
+    sendFriendRequest: async (userId, receiver) => {
         const res = await fetch('http://localhost:8000/api/friend-requests/send', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(senderId, receiverId),
+            body: JSON.stringify({senderId: userId, receiverId: receiver}),
         });
         const data = await res.json();
         // set((state) => ({ friendRequests: [...state.friendRequests, data.data] }));
@@ -56,4 +56,17 @@ export const useFriendRequestStore = create((set) => ({
         // }));
         return { success: true, message: data };
     },
+
+    getSentFriendRequests: async (userId) => {
+        const res = await fetch(`http://localhost:8000/api/friend-requests/sent/${userId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        const data = await res.json();
+        // set({ friendRequests: data.data });
+        return { success: true, message: data };
+    },
+
 }));

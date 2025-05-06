@@ -110,7 +110,7 @@ try {
 
 export const getTrainers = async (req, res) => {
     try {
-        const trainers = await User.find({ isTrainer: true });
+        const trainers = await User.find({ isTrainer: true }).populate('specialities', 'name'); // Populate specialties with name
 
         res.status(200).json({ success: true, data: trainers });
     } catch (error) {

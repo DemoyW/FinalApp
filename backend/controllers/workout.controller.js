@@ -17,6 +17,7 @@ export const createWorkout = async (req, res) => {
         res.status(500).json({ success: false, message: "Server error" });
     }
 }
+
 export const getWorkouts = async (req, res) => {
     try {
         const workouts = await Workout.find({ user: req.params.id }).populate("exercises.exercise");

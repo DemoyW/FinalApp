@@ -49,14 +49,13 @@ export const verifyResetOTP = async (req, res) => {
 export const recoverPasswrod = async (req, res) => {
     const { email, otp } = req.body;
 
-
     const html = `
     <h1>Reset Password</h1>
     <p>${otp}</p>
     <p>Use the code below to reset your password</p>
     <p>The code will only be valid for 5 minutes</p>
     `
-
+    
     const transporter = nodeMailer.createTransport({
         host: 'smtp.gmail.com',
         port: 465,

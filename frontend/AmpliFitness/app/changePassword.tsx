@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
+import { View, Text, TextInput, Button, StyleSheet, Alert, Pressable } from "react-native";
 
 import { useUserStore } from "@/store/user";
 import { Link } from "expo-router";
@@ -37,6 +37,7 @@ export default function ChangePassword() {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Change Password</Text>
+            
             <TextInput
                 style={styles.input}
                 placeholder="Old Password"
@@ -44,6 +45,7 @@ export default function ChangePassword() {
                 value={newPassword.oldPassword}
                 onChangeText={(text) => setNewPassword({...newPassword, oldPassword: text})}
             />
+
             <TextInput
                 style={styles.input}
                 placeholder="New Password"
@@ -51,6 +53,7 @@ export default function ChangePassword() {
                 value={newPassword.newPassword}
                 onChangeText={(text) => setNewPassword({...newPassword, newPassword: text})}
             />
+
             <TextInput
                 style={styles.input}
                 placeholder="Confirm New Password"
@@ -58,29 +61,56 @@ export default function ChangePassword() {
                 value={newPassword.confirmPassword}
                 onChangeText={(text) => setNewPassword({...newPassword, confirmPassword: text})}
             />
-            <Button title="Change Password" onPress={handleChangePassword} />
+         
+
+            <Pressable style={styles.saveButton} onPress={handleChangePassword}>
+                <Text style={styles.saveText}>Update Password</Text>
+            </Pressable>
+
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "lightblue",
+      flex: 1,
+      backgroundColor: "lightblue",
+      alignItems: "center",
+      justifyContent: "center",
+      paddingHorizontal: 20,
     },
     title: {
-        fontSize: 20,
-        marginBottom: 20,
+      fontSize: 28,
+      fontWeight: "bold",
+      color: "#003366",
+      marginBottom: 30,
     },
     input: {
-        width: "80%",
-        padding: 10,
-        marginBottom: 20,
-        borderWidth: 1,
-        borderColor: "black",
+      backgroundColor: "white",
+      borderRadius: 10,
+      paddingVertical: 14,
+      paddingHorizontal: 16,
+      fontSize: 16,
+      width: "100%",
+      marginBottom: 15,
+      shadowColor: "#000",
+      shadowOpacity: 0.1,
+      shadowOffset: { width: 0, height: 2 },
+      shadowRadius: 4,
+      elevation: 2,
     },
-});
-//     };
-//
+    saveButton: {
+      backgroundColor: "#007ACC",
+      paddingVertical: 14,
+      paddingHorizontal: 24,
+      borderRadius: 10,
+      width: "100%",
+      alignItems: "center",
+      marginTop: 20,
+    },
+    saveText: {
+      color: "#ffffff",
+      fontSize: 18,
+      fontWeight: "bold",
+    },
+  });

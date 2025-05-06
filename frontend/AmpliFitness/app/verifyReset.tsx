@@ -1,4 +1,4 @@
-import {Text, View, TextInput, Button, Alert} from "react-native";
+import {Text, View, TextInput, Button, Alert, StyleSheet, Pressable} from "react-native";
 import {Link, useRouter} from "expo-router";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useState } from "react";
@@ -44,18 +44,100 @@ export default function VerifyResetScreen() {
     };
 
     return (
-        <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-            <Text style={{fontSize: 24, marginBottom: 20}}>Confirm Password Reset</Text>
-            <TextInput 
-                style={{height: 40, borderColor: 'gray', borderWidth: 1, width: '80%', marginBottom: 20}}
+        <View style={styles.container}>
+            <Text style={styles.title}>Verify OTP</Text>
+            
+         
+           <TextInput 
+                style={styles.input}
                 placeholder="Enter number sent to your email"
                 value={otp}
                 onChangeText={setOtp}
 
             />
-            <Button title="Confirm Reset" onPress={submitOTP} />
-            <Button title="Resend Code" onPress={() => Alert.alert("Code resent!")} />
-            <Link href="/resetPassword" style={{marginTop: 20}}>Reset Password</Link>
-            <Link href="/login" style={{marginTop: 20}}>Back to Login</Link>
+
+            <Pressable style={styles.confirmButton} onPress={submitOTP}>
+                <Text style={styles.confirmButtonText}>Confirm OTP</Text>
+            </Pressable>
+
+   
+            
+           
+            {/* <Button title="Resend Code" onPress={() => Alert.alert("Code resent!")} />
+            <Link href="/resetPassword" style={{marginTop: 20}}>Reset Password</Link> */}
+           
+            <Link href="/login" style={styles.link}>Back to Login</Link>
         </View>
     );}
+
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "lightblue",
+        alignItems: "center",
+        justifyContent: "center",
+        paddingHorizontal: 20,
+    },
+    title: {
+        fontSize: 28,
+        fontWeight: "bold",
+        color: "#003366",
+        marginBottom: 30,
+        textAlign: "center",
+    },
+    input: {
+        backgroundColor: "#fff",
+        borderRadius: 10,
+        paddingVertical: 14,
+        paddingHorizontal: 16,
+        fontSize: 16,
+        width: "100%",
+        marginBottom: 20,
+        shadowColor: "#000",
+        shadowOpacity: 0.1,
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 4,
+        elevation: 2,
+    },
+    confirmButton: {
+        backgroundColor: "#007ACC",
+        paddingVertical: 14,
+        paddingHorizontal: 24,
+        borderRadius: 10,
+        width: "100%",
+        alignItems: "center",
+        marginBottom: 10,
+    },
+    confirmButtonText: {
+        color: "#ffffff",
+        fontSize: 18,
+        fontWeight: "bold",
+    },
+    resendButton: {
+        backgroundColor: "#ffffff",
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        borderRadius: 10,
+        width: "100%",
+        alignItems: "center",
+        marginBottom: 20,
+        shadowColor: "#000",
+        shadowOpacity: 0.05,
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 3,
+        elevation: 1,
+    },
+    resendButtonText: {
+        fontSize: 16,
+        color: "#003366",
+        fontWeight: "500",
+    },
+    link: {
+        fontSize: 16,
+        color: "#003366",
+        marginTop: 10,
+        textDecorationLine: "underline",
+    },
+    });

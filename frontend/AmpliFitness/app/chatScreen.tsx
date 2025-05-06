@@ -160,8 +160,8 @@ export default function ChatScreen() {
     return (
         <View style={styles.container}>
             <Text style={styles.text}>{recipient}</Text>
-            <Button title="Show Id" onPress={showId} />
-            <Text style={styles.text}>Chat with other users</Text>
+            {/* <Button title="Show Id" onPress={showId} /> */}
+            {/* <Text style={styles.text}>Chat with other users</Text> */}
             <FlatList
                 data={chats}
                 renderItem={renderItem} 

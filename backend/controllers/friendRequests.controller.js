@@ -86,7 +86,7 @@ export const getSentFriendRequests = async (req, res) => {
     const { userId } = req.params; // Assuming you pass the user ID in the URL
 
     try {
-        const requests = await FriendRequest.find({ sender: userId }).populate("receiver", "username email");
+        const requests = await FriendRequest.find({ sender: userId }).populate("receiver", "username");
 
         res.status(200).json({ success: true, data: requests });
     } catch (error) {
