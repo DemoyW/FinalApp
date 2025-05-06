@@ -151,7 +151,7 @@ export default function ChatScreen() {
 
         return (
             <View style={[styles.messageContainer, isSender ? styles.sender : styles.recipient]}>
-                <Text>{item.message}</Text>
+                <Text style={styles.messageText}>{item.message}</Text>
             </View>
         )
     }
@@ -159,14 +159,14 @@ export default function ChatScreen() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>{recipient}</Text>
-            {/* <Button title="Show Id" onPress={showId} /> */}
-            {/* <Text style={styles.text}>Chat with other users</Text> */}
+            <Text style={styles.recipientText}>{recipient}</Text>
             <FlatList
                 data={chats}
                 renderItem={renderItem} 
                 />
+            <View style={styles.inputContainer}>
             <TextInput
+                style={styles.input}
                 value={messages.message}
                 onChangeText={(message) => setMessages({...messages, message})}
                 placeholder="Type your message here"
@@ -174,6 +174,7 @@ export default function ChatScreen() {
             />
 
             <Button title="Send Message" onPress={sendMessage} />
+            </View>
         </View>
     );
 }
@@ -183,31 +184,55 @@ export default function ChatScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // justifyContent: 'center',
-        alignItems: 'center',
         padding: 16,
-        backgroundColor : "lightblue",
+        backgroundColor: "lightblue",
     },
-
-    text: {
-        fontSize: 40,
-        fontWeight: 'bold',
+    recipientText: {
+        fontSize: 26,
+        fontWeight: "bold",
+        color: "#003366",
+        textAlign: "center",
+        marginVertical: 16,
     },
-
+    messagesList: {
+        paddingBottom: 80, // Space for input box
+    },
     messageContainer: {
-        padding: 10,
-        marginBottom: 5,
+        padding: 12,
+        marginBottom: 10,
         borderRadius: 15,
-        maxWidth: '70%'
+        maxWidth: "80%",
+        alignSelf: "flex-start",
+        backgroundColor: "gray",
+        marginLeft: 10,
     },
     sender: {
-        alignSelf: 'flex-end',
-        backgroundColor: 'green'
+        backgroundColor: "#4CAF50", // green for sender
+        alignSelf: "flex-end",
     },
     recipient: {
-        alignSelf: 'flex-start',
-        backgroundColor: 'grey'
-        
-    }
- 
-    });
+        backgroundColor: "darkgray", // light gray for recipient
+        alignSelf: "flex-start",
+    },
+    messageText: {
+        fontSize: 16,
+        color: "#fff",
+    },
+    inputContainer: {
+        flexDirection: "row",
+        paddingTop: 10,
+        paddingBottom: 16,
+        alignItems: "center",
+  
+    },
+    input: {
+        flex: 1,
+        height: 40,
+        borderColor: "#ccc",
+        borderWidth: 1,
+        borderRadius: 20,
+        paddingHorizontal: 10,
+        marginRight: 10,
+        backgroundColor: "#f0f0f0",
+    },
+});

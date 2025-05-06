@@ -4,6 +4,15 @@ import {useEffect, useState, } from 'react';
 import {useUserStore} from '@/store/user';
 import {useFriendRequestStore} from '@/store/friendRequests';
 import { FlatList, GestureHandlerRootView} from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+
+type RootStackParamList = {
+    Friends: undefined;
+    history: { clientId: string };
+}
+
+type FriendsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Friends'>;
 
 
 interface Friend{
@@ -35,6 +44,8 @@ interface User {
 }
 
 export default function FriendsScreen() {
+    const navigation = useNavigation<FriendsScreenNavigationProp>();
+
     const [friends, setFriends] = useState<Friend[]>([]);
     const [trainers, setTrainers] = useState<Friend[]>([]);
     const [friendRequests, setFriendRequests] = useState<FriendRequest[]>([]);
@@ -42,6 +53,7 @@ export default function FriendsScreen() {
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [filteredNonFriends, setFilteredNonFriends] = useState<User[]>([]);
     const [sentRequests, setSentRequests] = useState<sentRequest[]>([]);
+    const [user, setUser] = useState<User | null>(null);
 
 
     const {getFriends, userId, getAllUsers} = useUserStore();
@@ -61,12 +73,15 @@ export default function FriendsScreen() {
             return !isFriend && user._id !== userId && !user.isTrainer;
           });
           
-          const userTrainer = allUsers
+          const user = allUsers.message.data.find((user: User) => user._id === userId);
+          setUser(user);
           
           setFriends(Friends);
           setTrainers(Trainers);
           setNonFriends(filteredUsers);
           console.log('Non-Friends', filteredUsers);
+
+          
 
         
 
@@ -131,7 +146,7 @@ export default function FriendsScreen() {
     };
     const handleViewSentRequests = () => {
 
-        console.log("Sent Requests", sentRequests);
+        console.log("user", user, "is this a trainer?", user?.isTrainer);
     }
 
     const handleSearch = (text: string) => {
@@ -200,22 +215,28 @@ export default function FriendsScreen() {
               />
               ) : null}
 
-            
-            <Text style={styles.title}>Your Friends</Text>
-    
+            {/* Friends/Clients */}
+            <Text style={styles.title}>{user?.isTrainer ? 'Your clients' : 'Your Friends'}</Text>
             <FlatList
               data={friends}
               keyExtractor={(item) => item._id}
               renderItem={({ item }) => (
                 <View style={styles.friendCard}>
                   <Text style={styles.friendName}>{item.username}</Text>
+                  {user?.isTrainer && (
+                    <Button
+                      title="View History"
+                      onPress={() => navigation.navigate('history', { clientId: item._id })}
+                      color="#2196F3"
+                    />
+                  )}
                 </View>
               )}
               ListEmptyComponent={<Text style={styles.emptyText}>You have no friends yet.</Text>}
             />
 
-            <Text style={styles.title}>Your Trainers</Text>
 
+            <Text style={styles.title}>{user?.isTrainer ? 'Other Trainers' : 'Your Trainers  '}</Text>
             <FlatList
               data={trainers}
               keyExtractor={(item) => item._id}
@@ -248,7 +269,7 @@ export default function FriendsScreen() {
               ListEmptyComponent={<Text style={styles.emptyText}>No pending friend requests.</Text>}
             />
 
-              {/* <Button title="View sent requests" onPress={handleViewSentRequests} color="#2196F3" /> */}
+              <Button title="View sent requests" onPress={handleViewSentRequests} color="#2196F3" />
 
           </View>
         </GestureHandlerRootView>

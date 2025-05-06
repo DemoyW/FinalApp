@@ -241,7 +241,7 @@ export const getAllFriends = async (req, res) => {
     }
 
     try {
-        const user = await User.findById(id).populate("friends", "username"); // Populate friends with username 
+        const user = await User.findById(id).populate("friends", "username isTrainer"); // Populate friends with username 
 
         if (!user) {
             return res.status(404).json({ success: false, message: "User not found" });

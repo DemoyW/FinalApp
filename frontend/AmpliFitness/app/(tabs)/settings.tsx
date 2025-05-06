@@ -49,11 +49,11 @@ export default function SettingsScreen() {
       
 
       <View style={styles.divider} />
-
+{/* 
       <Pressable style={styles.deleteButton}>
         <Text style={styles.deleteText}>Delete Account</Text>
       </Pressable>
-    
+     */}
       
       
       <Pressable style={styles.signOutButton} onPress={logOut}>

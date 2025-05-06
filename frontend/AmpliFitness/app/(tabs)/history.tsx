@@ -5,6 +5,10 @@ import { Text, View, Button, StyleSheet } from "react-native";
 import { useUserStore } from "@/store/user";
 import { useWorkoutStore } from "@/store/workout";
 import { FlatList, GestureHandlerRootView } from "react-native-gesture-handler";
+import { useRoute, RouteProp,useFocusEffect } from "@react-navigation/native";
+
+
+type WorkoutHistoryRouteProp = RouteProp<{ params: { clientId: string } }, "params">; 
 
 
 interface Workout {
@@ -38,15 +42,19 @@ interface set {
 
 
 export default function HistoryScreen() {
+  const route = useRoute<WorkoutHistoryRouteProp>();
   const {getAllWorkouts} = useWorkoutStore();
   const { userId } = useUserStore();
   const [AllWorkouts, setAllWorkouts] = useState<Workout[]>([]);
+  // const [clientId, setClientId] = useState<string | null>(route.params?.clientId || null); // Initialize clientId from route params or set to null if not available
+
+  const clientId = route.params?.clientId;
 
 
   const fetchWorkoutHistory = async () => {
     try {
-      const Workouts = await getAllWorkouts(userId);
-      console.log("All workouts:", Workouts.message.data);
+      const Workouts = clientId ? await getAllWorkouts(clientId) : await getAllWorkouts(userId); 
+
       setAllWorkouts(Workouts.message.data);
       console.log("All workouts test", AllWorkouts);
     } catch (error) {
@@ -54,14 +62,27 @@ export default function HistoryScreen() {
     }
   }
 
+  const showClientId = () => {
+    console.log("This is the clientId", clientId);
+  }
+
   useEffect(() => {
     fetchWorkoutHistory();
-  }, []);
+  }, [clientId, userId]); // Fetch workouts when clientId or userId changes
+
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     return () => {
+  //       // Cleanup function to reset clientId when the screen is unfocused
+  //       setClientId(null);
+  //     }
+  //   }, [])
+  // );
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
-        <Text style={styles.title}>Your Workout History</Text>
+        <Text style={styles.title}>{clientId ? "Client's Workout History" : "Your Workout History"}</Text>
         <Text style={styles.subtitle}>View your past workouts below</Text>
 
         <FlatList
@@ -90,6 +111,7 @@ export default function HistoryScreen() {
           )}
           ListEmptyComponent={<Text style={styles.empty}>No workout history yet.</Text>}
         />
+        <Button title="Show Client Id" onPress={showClientId} />
       </View>
     </GestureHandlerRootView>
   );
