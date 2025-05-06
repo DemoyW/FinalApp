@@ -164,10 +164,7 @@ export default function FriendsScreen() {
         fetchSentFriendRequests();
     }, []);
 
-    const viewNonFriends = () => {
-        console.log("Non-Friends", nonFriends);
-    }
-    
+
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
           <View style={styles.container}>
@@ -269,7 +266,7 @@ export default function FriendsScreen() {
               ListEmptyComponent={<Text style={styles.emptyText}>No pending friend requests.</Text>}
             />
 
-              <Button title="View sent requests" onPress={handleViewSentRequests} color="#2196F3" />
+        
 
           </View>
         </GestureHandlerRootView>
